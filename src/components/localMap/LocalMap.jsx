@@ -8,7 +8,7 @@ function LocalMap() {
 
   return (
     <APIProvider apiKey={APIKey}>
-      <Map center={position} zoom={10}>
+      <Map defaultCenter={position} zoom={10}>
         <Marker position={position} />
       </Map>
     </APIProvider>
