@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .env
 
+# Since it contains my API key
+index.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

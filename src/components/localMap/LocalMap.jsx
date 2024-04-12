@@ -1,18 +1,7 @@
-import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-
 import './local-map.module.css';
 
 function LocalMap() {
-  const position = { lat: 61.2176, lng: -149.8997 };
-  const APIKey = import.meta.env.VITE_APIKEY;
-
-  return (
-    <APIProvider apiKey={APIKey}>
-      <Map defaultCenter={position} zoom={10}>
-        <Marker position={position} />
-      </Map>
-    </APIProvider>
-  );
+  return <div id="map1" style={{ height: '100%', width: '100%' }}></div>;
 }
 
 export default LocalMap;
