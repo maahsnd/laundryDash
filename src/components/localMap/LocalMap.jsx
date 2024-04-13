@@ -2,10 +2,11 @@ import { APIProvider, Map } from '@vis.gl/react-google-maps';
 import { useState, useEffect } from 'react';
 import './local-map.module.css';
 import MarkerWithInfoWindow from '../MarkerWithInfoWindow';
+import getUserLocation from '../../getUserLocation';
+import styles from './local-map.module.css';
 
 /* 
-incorporate laundry services via: 
-https://developers.google.com/maps/documentation/places/web-service/nearby-search
+Get location, pass to fetch laundry services
 */
 
 function LocalMap() {
@@ -45,7 +46,6 @@ function LocalMap() {
           body: JSON.stringify(reqBody)
         });
         const data = await response.json();
-        console.log(data.places);
         setLaundryServices(data.places);
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -55,22 +55,37 @@ function LocalMap() {
       }
     };
     fetchLaundryServices();
-  }, []);
+  }, [position]);
+
+  const getLocationFromNavigator = async () => {
+    const location = await getUserLocation(position);
+    setPosition(location);
+  };
 
   return (
-    <APIProvider apiKey={APIKey}>
-      <Map
-        defaultCenter={position}
-        zoom={currentZoom}
-        onZoomChanged={(newZoom) => setCurrentZoom(newZoom)}
-        mapId={MAPID}
-      >
-        {laundryServices.length !== 0 &&
-          laundryServices.map((service, index) => (
-            <MarkerWithInfoWindow index={index} placeData={service} />
-          ))}
-      </Map>
-    </APIProvider>
+    <>
+      <button onClick={getLocationFromNavigator}>Get Location</button>
+      <div className={styles.mapContainer}>
+        <APIProvider apiKey={APIKey}>
+          <Map
+            defaultCenter={position}
+            zoom={currentZoom}
+            onZoomChanged={(newZoom) => setCurrentZoom(newZoom)}
+            mapId={MAPID}
+            key={`${position.lat},${position.lng}`}
+          >
+            {laundryServices.length !== 0 &&
+              laundryServices.map((service, index) => (
+                <MarkerWithInfoWindow
+                  index={index}
+                  placeData={service}
+                  key={service.id}
+                />
+              ))}
+          </Map>
+        </APIProvider>
+      </div>
+    </>
   );
 }
 
