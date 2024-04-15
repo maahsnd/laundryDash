@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './local-map.module.css';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
 import getUserLocation from '../../getUserLocation';
+import Autocomplete from '../autocomplete/Autocomplete.jsx';
 import styles from './local-map.module.css';
 
 /* 
@@ -66,8 +67,10 @@ function LocalMap() {
   return (
     <>
       <button onClick={getLocationFromNavigator}>Get Location</button>
+
       <div className={styles.mapContainer}>
         <APIProvider apiKey={APIKey}>
+          <Autocomplete onPlaceSelect={setPosition} />
           <Map
             defaultCenter={position}
             zoom={currentZoom}
