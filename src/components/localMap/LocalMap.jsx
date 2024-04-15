@@ -47,7 +47,6 @@ function LocalMap() {
           body: JSON.stringify(reqBody)
         });
         const data = await response.json();
-        console.log(data.places[0]);
         setLaundryServices(data.places);
         if (!response.ok) {
           throw new Error('Network response was not ok');

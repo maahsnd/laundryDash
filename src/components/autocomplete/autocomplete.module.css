@@ -1,0 +1,10 @@
+.autocompleteContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.autocompleteContainer > input {
+  width: 90%;
+}

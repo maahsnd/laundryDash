@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
+import styles from './autocomplete.module.css';
 
 // This is the classic "Place Autocomplete" widget.
 // https://github.com/visgl/react-google-maps/blob/main/examples/autocomplete/src/app.tsx
@@ -36,7 +37,7 @@ const Autocomplete = ({ onPlaceSelect }) => {
   }, [placeAutocomplete, onPlaceSelect]);
 
   return (
-    <div className="autocomplete-container">
+    <div className={styles.autocompleteContainer}>
       <input ref={inputRef} />
     </div>
   );
