@@ -1,0 +1,61 @@
+/* locationBtn.module.css */
+.locationButton {
+  border: none;
+  background-color: transparent;
+  padding: 3px; /* further reduced */
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outerCircle {
+  position: relative;
+  width: 17px; /* 60% of 28px */
+  height: 17px; /* 60% of 28px */
+  border-radius: 50%;
+  border: 2.5px solid #007bff; /* slightly thinner border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.innerCircle {
+  width: 13px; /* 60% of 22px */
+  height: 13px; /* 60% of 22px */
+  background-color: #007bff; /* Bootstrap primary color */
+  border-radius: 50%;
+}
+
+.direction {
+  position: absolute;
+  background-color: #007bff;
+  width: 1px; /* thinner lines */
+  height: 3px; /* shorter lines */
+}
+
+.north,
+.south {
+  width: 2px; /* consistent with new line width */
+}
+
+.east,
+.west {
+  width: 4px; /* shortened for a more compact appearance */
+  height: 2px; /* consistent with new line width */
+}
+
+.north {
+  top: -4px;
+} /* adjusted positions */
+.south {
+  bottom: -4px;
+}
+.east {
+  right: -4px;
+}
+.west {
+  left: -4px;
+}
