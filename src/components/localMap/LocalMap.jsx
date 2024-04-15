@@ -66,10 +66,13 @@ function LocalMap() {
 
   return (
     <>
-      <LocationButton onClickHandler={getLocationFromNavigator} />
       <div className={styles.mapContainer}>
         <APIProvider apiKey={APIKey}>
-          <Autocomplete onPlaceSelect={setPosition} />
+          <div className={styles.locationSelectors}>
+            <Autocomplete onPlaceSelect={setPosition} />
+            <LocationButton onClickHandler={getLocationFromNavigator} />
+          </div>
+
           <Map
             defaultCenter={position}
             zoom={currentZoom}
