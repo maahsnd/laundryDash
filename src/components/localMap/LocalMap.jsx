@@ -1,7 +1,7 @@
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
 import { useState, useEffect } from 'react';
 import './local-map.module.css';
-import MarkerWithInfoWindow from '../MarkerWithInfoWindow';
+import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
 import getUserLocation from '../../getUserLocation';
 import styles from './local-map.module.css';
 
@@ -46,6 +46,7 @@ function LocalMap() {
           body: JSON.stringify(reqBody)
         });
         const data = await response.json();
+        console.log(data.places[0]);
         setLaundryServices(data.places);
         if (!response.ok) {
           throw new Error('Network response was not ok');
