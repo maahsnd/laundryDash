@@ -1,4 +1,5 @@
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
+
 import { useState, useEffect } from 'react';
 import './local-map.module.css';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
@@ -8,7 +9,8 @@ import LocationButton from '../locationBtn/locationBtn.jsx';
 import styles from './local-map.module.css';
 
 /* 
-Get location, pass to fetch laundry services
+TODO
+Get more information on laundry services, make info window look better
 */
 
 function LocalMap() {
@@ -79,6 +81,7 @@ function LocalMap() {
             onZoomChanged={(newZoom) => setCurrentZoom(newZoom)}
             mapId={MAPID}
             key={`${position.lat},${position.lng}`}
+            className={styles.map}
           >
             {laundryServices.length !== 0 &&
               laundryServices.map((service, index) => (

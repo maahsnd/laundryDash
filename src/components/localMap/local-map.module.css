@@ -3,6 +3,13 @@
   width: 60%;
 }
 
+.map {
+  border: 2.5px solid #007bff;
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+}
+
 .locationSelectors {
   display: flex;
   align-items: center;

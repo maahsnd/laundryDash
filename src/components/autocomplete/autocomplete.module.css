@@ -6,4 +6,8 @@
 .autocompleteContainer > input {
   width: 100%;
   height: 25px;
+  border: 2.5px solid #007bff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: larger;
 }
