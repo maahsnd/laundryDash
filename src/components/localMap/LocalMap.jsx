@@ -1,4 +1,5 @@
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import logo from '../../assets/LoopieLogo.png';
 
 import { useState, useEffect } from 'react';
 import './local-map.module.css';
@@ -7,11 +8,6 @@ import getUserLocation from '../../getUserLocation';
 import Autocomplete from '../autocomplete/Autocomplete.jsx';
 import LocationButton from '../locationBtn/locationBtn.jsx';
 import styles from './local-map.module.css';
-
-/* 
-TODO
-Get more information on laundry services, make info window look better
-*/
 
 function LocalMap() {
   const [position, setPosition] = useState({ lat: 61.2176, lng: -149.8997 });
@@ -69,6 +65,10 @@ function LocalMap() {
   return (
     <>
       <div className={styles.mapContainer}>
+        <div className={styles.logoContainer}>
+          <img className={styles.logo} src={logo} alt="Loopie Logo" />
+        </div>
+
         <APIProvider apiKey={APIKey}>
           <div className={styles.locationSelectors}>
             <Autocomplete onPlaceSelect={setPosition} />

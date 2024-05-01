@@ -16,7 +16,7 @@
   width: 17px; /* 60% of 28px */
   height: 17px; /* 60% of 28px */
   border-radius: 50%;
-  border: 2.5px solid #007bff; /* slightly thinner border */
+  border: 2.5px solid var(--main-color); /* slightly thinner border */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,13 +25,13 @@
 .innerCircle {
   width: 13px; /* 60% of 22px */
   height: 13px; /* 60% of 22px */
-  background-color: #007bff; /* Bootstrap primary color */
+  background-color: var(--main-color); /* Bootstrap primary color */
   border-radius: 50%;
 }
 
 .direction {
   position: absolute;
-  background-color: #007bff;
+  background-color: var(--main-color);
   width: 1px; /* thinner lines */
   height: 3px; /* shorter lines */
 }
