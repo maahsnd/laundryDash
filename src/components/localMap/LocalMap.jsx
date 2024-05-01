@@ -10,13 +10,15 @@ import LocationButton from '../locationBtn/locationBtn.jsx';
 import styles from './local-map.module.css';
 
 function LocalMap() {
-  const [position, setPosition] = useState({ lat: 61.2176, lng: -149.8997 });
+  const [position, setPosition] = useState({
+    lat: 47.6061389,
+    lng: -122.3328481
+  });
   const [laundryServices, setLaundryServices] = useState([]);
   const [currentZoom, setCurrentZoom] = useState(12);
 
   const APIKey = import.meta.env.VITE_APIKEY;
   const MAPID = import.meta.env.VITE_MAPID;
-  console.log(APIKey, MAPID);
   const googlePlacesURL =
     'https://places.googleapis.com/v1/places:searchNearby';
 
