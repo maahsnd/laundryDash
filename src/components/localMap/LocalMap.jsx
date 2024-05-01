@@ -16,6 +16,7 @@ function LocalMap() {
 
   const APIKey = import.meta.env.VITE_APIKEY;
   const MAPID = import.meta.env.VITE_MAPID;
+  console.log(APIKey, MAPID);
   const googlePlacesURL =
     'https://places.googleapis.com/v1/places:searchNearby';
 
