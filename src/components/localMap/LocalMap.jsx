@@ -70,6 +70,10 @@ function LocalMap() {
       <div className={styles.mapContainer}>
         <div className={styles.logoContainer}>
           <img className={styles.logo} src={logo} alt="Loopie Logo" />
+          <h1 className={styles.logoHeader}>
+            Streamline Your Laundry Experience with LaundryDash.ai: Your
+            Ultimate Wash and Fold Navigator
+          </h1>
         </div>
 
         <APIProvider apiKey={APIKey}>
