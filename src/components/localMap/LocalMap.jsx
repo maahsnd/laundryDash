@@ -76,14 +76,13 @@ function LocalMap() {
             Ultimate Wash and Fold Navigator
           </h1>
         </div>
-        <div className={styles.mapAndListWrap}>
-          <div className={styles.mapContainer}>
-            <APIProvider apiKey={APIKey}>
-              <div className={styles.locationSelectors}>
-                <Autocomplete onPlaceSelect={setPosition} />
-                <LocationButton onClickHandler={getLocationFromNavigator} />
-              </div>
-
+        <APIProvider apiKey={APIKey}>
+          <div className={styles.locationSelectors}>
+            <Autocomplete onPlaceSelect={setPosition} />
+            <LocationButton onClickHandler={getLocationFromNavigator} />
+          </div>
+          <div className={styles.mapAndListWrap}>
+            <div className={styles.mapContainer}>
               <Map
                 defaultCenter={position}
                 zoom={currentZoom}
@@ -101,11 +100,11 @@ function LocalMap() {
                     />
                   ))}
               </Map>
-            </APIProvider>
-          </div>
+            </div>
 
-          <ListView laundryServices={laundryServices} />
-        </div>
+            <ListView laundryServices={laundryServices} />
+          </div>
+        </APIProvider>
       </div>
     </>
   );
