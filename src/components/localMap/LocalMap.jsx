@@ -3,6 +3,7 @@ import logo from '../../assets/LoopieLogo.png';
 
 import { useState, useEffect } from 'react';
 import './local-map.module.css';
+import ListView from '../listView/ListView.jsx';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
 import getUserLocation from '../../getUserLocation';
 import Autocomplete from '../autocomplete/Autocomplete.jsx';
@@ -67,7 +68,7 @@ function LocalMap() {
 
   return (
     <>
-      <div className={styles.mapContainer}>
+      <div className={styles.pageContainer}>
         <div className={styles.logoContainer}>
           <img className={styles.logo} src={logo} alt="Loopie Logo" />
           <h1 className={styles.logoHeader}>
@@ -75,31 +76,36 @@ function LocalMap() {
             Ultimate Wash and Fold Navigator
           </h1>
         </div>
+        <div className={styles.mapAndListWrap}>
+          <div className={styles.mapContainer}>
+            <APIProvider apiKey={APIKey}>
+              <div className={styles.locationSelectors}>
+                <Autocomplete onPlaceSelect={setPosition} />
+                <LocationButton onClickHandler={getLocationFromNavigator} />
+              </div>
 
-        <APIProvider apiKey={APIKey}>
-          <div className={styles.locationSelectors}>
-            <Autocomplete onPlaceSelect={setPosition} />
-            <LocationButton onClickHandler={getLocationFromNavigator} />
+              <Map
+                defaultCenter={position}
+                zoom={currentZoom}
+                onZoomChanged={(newZoom) => setCurrentZoom(newZoom)}
+                mapId={MAPID}
+                key={`${position.lat},${position.lng}`}
+                className={styles.map}
+              >
+                {laundryServices.length !== 0 &&
+                  laundryServices.map((service, index) => (
+                    <MarkerWithInfoWindow
+                      index={index}
+                      placeData={service}
+                      key={service.id}
+                    />
+                  ))}
+              </Map>
+            </APIProvider>
           </div>
 
-          <Map
-            defaultCenter={position}
-            zoom={currentZoom}
-            onZoomChanged={(newZoom) => setCurrentZoom(newZoom)}
-            mapId={MAPID}
-            key={`${position.lat},${position.lng}`}
-            className={styles.map}
-          >
-            {laundryServices.length !== 0 &&
-              laundryServices.map((service, index) => (
-                <MarkerWithInfoWindow
-                  index={index}
-                  placeData={service}
-                  key={service.id}
-                />
-              ))}
-          </Map>
-        </APIProvider>
+          <ListView laundryServices={laundryServices} />
+        </div>
       </div>
     </>
   );

@@ -1,0 +1,6 @@
+.listContainer {
+  border: 2.5px solid var(--main-color);
+  border-radius: 10px;
+  height: 800px;
+  width: 100%;
+}

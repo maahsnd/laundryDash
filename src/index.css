@@ -1,3 +1,7 @@
 :root {
   --main-color: #0068e2;
 }
+
+body {
+  margin: 0;
+}

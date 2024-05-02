@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="page-container">
+    <div className="container">
       <LocalMap></LocalMap>
     </div>
   );
