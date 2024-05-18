@@ -9,7 +9,7 @@ const getUserLocation = (defaultCoords) => {
       },
       (error) => {
         alert(
-          'Sorry, we were unable to access your location. Either type it in, or enable browser location access in settings, refresh the page, and try again.'
+          'Sorry, we were unable to access your location. Please either type it in, or enable browser location access in settings.'
         );
         console.error('Geolocation error:', error);
         reject(coords);
