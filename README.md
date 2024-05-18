@@ -9,7 +9,6 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 Next steps:
 
 List view:
-Contain list view to same height as map, make scrollable
 Sort by ratings (by default)
 Add a sponsored top slot
 Add an option for Loopie to share discount codes
