@@ -10,14 +10,13 @@ function ListView({
 }) {
   const [sortedServices, setSortedServices] = useState([]);
   const [sortOption, setSortOption] = useState('byRating');
+  const [filterOption, setFilterOption] = useState('none');
 
   const sortOptions = {
-    byRating: () =>
-      [...laundryServices, ...loopieServices].sort(
-        (a, b) => b.rating - a.rating
-      ),
-    byProximity: () => {
-      const sorted = [...laundryServices].sort((a, b) => {
+    byRating: (laundryArray) =>
+      [...laundryArray, ...loopieServices].sort((a, b) => b.rating - a.rating),
+    byProximity: (laundryArray) => {
+      const sorted = [...laundryArray].sort((a, b) => {
         const distA = calculateDistance(
           position.lat,
           position.lng,
@@ -34,6 +33,15 @@ function ListView({
       });
       /* Place loopie services at the front. Delivery always closer than pick up! */
       return [...loopieServices, ...sorted];
+    }
+  };
+
+  const filterOptions = {
+    none: (laundryArray) => laundryArray,
+    openNow: (laundryArray) => {
+      return [...laundryArray].filter(
+        (service) => service.currentOpeningHours.openNow
+      );
     }
   };
 
@@ -57,23 +65,38 @@ function ListView({
   }
 
   useEffect(() => {
-    const sorted = sortOptions[sortOption]();
+    const filtered = filterOptions[filterOption](laundryServices);
+    const sorted = sortOptions[sortOption](filtered);
     const services = [...sponsoredServices, ...sorted];
     setSortedServices(services);
-  }, [sortOption, laundryServices, sponsoredServices]);
+  }, [sortOption, filterOption, laundryServices, sponsoredServices]);
 
   return (
     <div className={styles.listContainer}>
       <div className={styles.listDash}>
-        <label htmlFor="sortSelect">Sort by</label>
-        <select
-          name="sortSelect"
-          onChange={(e) => setSortOption(e.target.value)}
-          value={sortOption}
-        >
-          <option value="byRating">Rating</option>
-          <option value="byProximity">Proximity</option>
-        </select>
+        <div>
+          <label htmlFor="sortSelect">Sort by</label>
+          <select
+            name="sortSelect"
+            onChange={(e) => setSortOption(e.target.value)}
+            value={sortOption}
+          >
+            <option value="byRating">Rating</option>
+            <option value="byProximity">Proximity</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="filterSelect">Filter by</label>
+          <select
+            name="filterSelect"
+            onChange={(e) => setFilterOption(e.target.value)}
+            value={filterOption}
+          >
+            <option value="none">None</option>
+            <option value="openNow">Open now</option>
+          </select>
+        </div>
       </div>
 
       <div className={styles.listContent}>

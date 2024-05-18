@@ -11,17 +11,17 @@
   border-bottom: 2.5px solid var(--main-color);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 5px;
 }
 
-.listDash > select {
+.listDash > div > select {
   border-radius: 10px;
   font-family: 'Avenir Next Demi Bold';
   padding: 2px 6px;
 }
 
-.listDash > label {
+.listDash > div > label {
   margin-right: 5px;
 }
 
