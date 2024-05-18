@@ -9,7 +9,6 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 Next steps:
 
 List view:
-Sort by ratings (by default)
 Add a sponsored top slot
 Add an option for Loopie to share discount codes
 Display distance from user

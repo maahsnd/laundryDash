@@ -1,14 +1,13 @@
+import styles from './local-map.module.css';
+import { useState, useEffect } from 'react';
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
 import logo from '../../assets/LoopieLogo.png';
-
-import { useState, useEffect } from 'react';
-import './local-map.module.css';
+import DiscountDisplay from '../discountCode/DiscountDisplay.jsx';
 import ListView from '../listView/ListView.jsx';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
 import getUserLocation from '../../getUserLocation';
 import Autocomplete from '../autocomplete/Autocomplete.jsx';
 import LocationButton from '../locationBtn/locationBtn.jsx';
-import styles from './local-map.module.css';
 
 function LocalMap() {
   const [position, setPosition] = useState({
@@ -75,12 +74,14 @@ function LocalMap() {
             Streamline Your Laundry Experience with LaundryDash.ai: Your
             Ultimate Wash and Fold Navigator
           </h1>
+          <DiscountDisplay discountCode={'NODISCOUNT'} />
         </div>
         <APIProvider apiKey={APIKey}>
           <div className={styles.locationSelectors}>
             <Autocomplete onPlaceSelect={setPosition} />
             <LocationButton onClickHandler={getLocationFromNavigator} />
           </div>
+
           <div className={styles.mapAndListWrap}>
             <div className={styles.mapContainer}>
               <Map
