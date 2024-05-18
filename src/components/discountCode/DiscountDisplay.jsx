@@ -7,7 +7,7 @@ function DiscountDisplay({ discountCode, discountMessage }) {
         <p>
           {discountMessage
             ? discountMessage
-            : 'Save on Loopie services with discount code '}
+            : 'Save on Loopie services with discount code: '}
           <span className={styles.discountCode}>{discountCode}</span>
         </p>
       </div>

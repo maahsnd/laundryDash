@@ -11,3 +11,10 @@
   margin: 2px;
   color: white;
 }
+
+.discountCode {
+  background-color: white;
+  color: var(--main-color);
+  padding: 2px 4px;
+  border-radius: 5px;
+}
