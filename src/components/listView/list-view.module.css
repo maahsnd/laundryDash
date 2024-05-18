@@ -1,7 +1,7 @@
 .listContainer {
   border: 2.5px solid var(--main-color);
   border-radius: 10px;
-  height: 344px;
+  height: 50vh;
   width: 100%;
   overflow: scroll;
 }
