@@ -38,7 +38,6 @@ function MarkerWithInfowindow({ index, placeData }) {
         >
           <div className={styles.infoCard}>
             <h4>
-              {' '}
               <a href={placeData.googleMapsUri}>{placeData.displayName.text}</a>
             </h4>
             <p>{placeData.shortFormattedAddress}</p>
