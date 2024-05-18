@@ -8,14 +8,12 @@ function ListView({ laundryServices, sponsoredServices }) {
 
   return (
     <div className={styles.listContainer}>
-      {sponsoredServices &&
+      {sponsoredServices.length > 0 &&
         sponsoredServices.map((service) => (
           <ListViewItem itemData={service} className={styles.sponsored} />
         ))}
-      {laundryServices &&
-        laundryServices.map((service) => {
-          <ListViewItem itemData={service} />;
-        })}
+      {laundryServices.length > 0 &&
+        laundryServices.map((service) => <ListViewItem itemData={service} />)}
     </div>
   );
 }
