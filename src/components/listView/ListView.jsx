@@ -65,12 +65,14 @@ function ListView({
   return (
     <div className={styles.listContainer}>
       <div className={styles.listDash}>
+        <label htmlFor="sortSelect">Sort by</label>
         <select
+          name="sortSelect"
           onChange={(e) => setSortOption(e.target.value)}
           value={sortOption}
         >
-          <option value="byRating">Sort by Rating</option>
-          <option value="byProximity">Sort by Proximity</option>
+          <option value="byRating">Rating</option>
+          <option value="byProximity">Proximity</option>
         </select>
       </div>
 
