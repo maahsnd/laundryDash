@@ -104,8 +104,8 @@ function LocalMap() {
 
             <ListView
               laundryServices={laundryServices}
-              sponsoredServices={[]},
-          loopieServices= {[]}
+              sponsoredServices={[]}
+              loopieServices={[]}
               position={position}
             />
           </div>

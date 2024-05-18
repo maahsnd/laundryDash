@@ -2,14 +2,22 @@ import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
 
-function ListView({ laundryServices, sponsoredServices, position }) {
+function ListView({
+  laundryServices,
+  loopieServices,
+  sponsoredServices,
+  position
+}) {
   const [sortedServices, setSortedServices] = useState([]);
   const [sortOption, setSortOption] = useState('byRating');
 
   const sortOptions = {
-    byRating: () => [...laundryServices].sort((a, b) => b.rating - a.rating),
-    byProximity: () =>
-      [...laundryServices].sort((a, b) => {
+    byRating: () =>
+      [...laundryServices, ...loopieServices].sort(
+        (a, b) => b.rating - a.rating
+      ),
+    byProximity: () => {
+      const sorted = [...laundryServices].sort((a, b) => {
         const distA = calculateDistance(
           position.lat,
           position.lng,
@@ -23,7 +31,10 @@ function ListView({ laundryServices, sponsoredServices, position }) {
           b.location.longitude
         );
         return distA - distB;
-      })
+      });
+      /* Place loopie services at the front. Delivery always closer than pick up! */
+      return [...loopieServices, ...sorted];
+    }
   };
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
