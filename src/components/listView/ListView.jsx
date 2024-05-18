@@ -83,8 +83,8 @@ function ListView({
             onChange={(e) => setSortOption(e.target.value)}
             value={sortOption}
           >
-            <option value="byRating">Rating</option>
-            <option value="byProximity">Proximity</option>
+            <option value="byRating">Highest Rated</option>
+            <option value="byProximity">Closest</option>
           </select>
         </div>
 
