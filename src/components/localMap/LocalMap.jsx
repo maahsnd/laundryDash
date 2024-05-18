@@ -102,7 +102,10 @@ function LocalMap() {
               </Map>
             </div>
 
-            <ListView laundryServices={laundryServices} />
+            <ListView
+              laundryServices={laundryServices}
+              sponsoredServices={[]}
+            />
           </div>
         </APIProvider>
       </div>
