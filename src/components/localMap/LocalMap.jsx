@@ -105,6 +105,7 @@ function LocalMap() {
             <ListView
               laundryServices={laundryServices}
               sponsoredServices={[]}
+              position={position}
             />
           </div>
         </APIProvider>

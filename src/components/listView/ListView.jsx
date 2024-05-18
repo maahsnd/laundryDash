@@ -2,13 +2,48 @@ import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
 
-function ListView({ laundryServices, sponsoredServices }) {
+function ListView({ laundryServices, sponsoredServices, position }) {
   const [sortedServices, setSortedServices] = useState([]);
   const [sortOption, setSortOption] = useState('byRating');
 
   const sortOptions = {
-    byRating: () => [...laundryServices].sort((a, b) => b.rating - a.rating)
+    byRating: () => [...laundryServices].sort((a, b) => b.rating - a.rating),
+    byProximity: () =>
+      [...laundryServices].sort((a, b) => {
+        const distA = calculateDistance(
+          position.lat,
+          position.lng,
+          a.location.latitude,
+          a.location.longitude
+        );
+        const distB = calculateDistance(
+          position.lat,
+          position.lng,
+          b.location.latitude,
+          b.location.longitude
+        );
+        return distA - distB;
+      })
   };
+
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 3959; // Earth's radius in miles
+
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in miles
+
+    return distance;
+  }
 
   useEffect(() => {
     const sorted = sortOptions[sortOption]();
@@ -24,6 +59,7 @@ function ListView({ laundryServices, sponsoredServices }) {
           value={sortOption}
         >
           <option value="byRating">Sort by Rating</option>
+          <option value="byProximity">Sort by Proximity</option>
         </select>
       </div>
 
