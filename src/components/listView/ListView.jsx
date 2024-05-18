@@ -13,8 +13,10 @@ function ListView({
   const [filterOption, setFilterOption] = useState('none');
 
   const sortOptions = {
-    byRating: (laundryArray) =>
-      [...laundryArray, ...loopieServices].sort((a, b) => b.rating - a.rating),
+    byRating: (laundryArray) => {
+      const sorted = [...laundryArray].sort((a, b) => b.rating - a.rating);
+      return [...loopieServices, ...sorted];
+    },
     byProximity: (laundryArray) => {
       const sorted = [...laundryArray].sort((a, b) => {
         const distA = calculateDistance(
