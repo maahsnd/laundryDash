@@ -86,7 +86,7 @@ function LocalMap() {
             <div className={styles.mapContainer}>
               <Map
                 defaultCenter={position}
-                zoom={currentZoom}
+                zoom={currentZoom || 12}
                 onZoomChanged={(newZoom) => setCurrentZoom(newZoom)}
                 mapId={MAPID}
                 key={`${position.lat},${position.lng}`}
