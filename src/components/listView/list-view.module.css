@@ -37,4 +37,23 @@
   .listContainer {
     height: 40%;
   }
+
+  .listDash {
+    height: 50px;
+  }
+  .listDash > div {
+    text-align: center;
+    font-size: smaller;
+    margin: 2px 0;
+  }
+  .listContent {
+    height: calc(100% - 60px);
+  }
+
+  .listDash > option {
+    font-size: smaller;
+  }
+  .listDash {
+    justify-content: space-between;
+  }
 }
