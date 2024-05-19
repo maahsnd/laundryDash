@@ -8,9 +8,6 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 
 Next steps:
 
-List view:
-Display distance from user
-
 Add ability to manually add data for zipcodes in the future
 I.e have a database (for now just an object) with a list of zipcodes
 If the current location zipcode is present in the database, add those
