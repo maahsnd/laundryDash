@@ -18,23 +18,11 @@ function ListView({
       return [...loopieServices, ...sorted];
     },
     byProximity: (laundryArray) => {
-      const sorted = [...laundryArray].sort((a, b) => {
-        const distA = calculateDistance(
-          position.lat,
-          position.lng,
-          a.location.latitude,
-          a.location.longitude
-        );
-        const distB = calculateDistance(
-          position.lat,
-          position.lng,
-          b.location.latitude,
-          b.location.longitude
-        );
-        return distA - distB;
+      laundryArray.sort((a, b) => {
+        return a.distanceFromUser - b.distanceFromUser;
       });
       /* Place loopie services at the front. Delivery always closer than pick up! */
-      return [...loopieServices, ...sorted];
+      return [...loopieServices, ...laundryArray];
     }
   };
 
@@ -67,7 +55,18 @@ function ListView({
   }
 
   useEffect(() => {
-    const filtered = filterOptions[filterOption](laundryServices);
+    const arrPlusDistanceProp = laundryServices.map((el) => {
+      return {
+        ...el,
+        distanceFromUser: calculateDistance(
+          position.lat,
+          position.lng,
+          el.location.latitude,
+          el.location.longitude
+        )
+      };
+    });
+    const filtered = filterOptions[filterOption](arrPlusDistanceProp);
     const sorted = sortOptions[sortOption](filtered);
     const services = [...sponsoredServices, ...sorted];
     setSortedServices(services);

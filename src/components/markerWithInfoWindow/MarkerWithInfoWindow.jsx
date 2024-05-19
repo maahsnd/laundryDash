@@ -38,7 +38,9 @@ function MarkerWithInfowindow({ index, placeData }) {
         >
           <div className={styles.infoCard}>
             <h4>
-              <a href={placeData.googleMapsUri}>{placeData.displayName.text}</a>
+              <a href={placeData.googleMapsUri} target="_blank">
+                {placeData.displayName.text}
+              </a>
             </h4>
             <p>{placeData.shortFormattedAddress}</p>
             <p>{placeData.nationalPhoneNumber}</p>
@@ -50,7 +52,9 @@ function MarkerWithInfowindow({ index, placeData }) {
             </p>
             <p>{getCurrentDayHours()}</p>
             {placeData.websiteUri && (
-              <a href={placeData.websiteUri}>{placeData.websiteUri}</a>
+              <a href={placeData.websiteUri} target="_blank">
+                {placeData.websiteUri}
+              </a>
             )}
           </div>
         </InfoWindow>
