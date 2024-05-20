@@ -18,7 +18,7 @@ function createService(
 }
 
 const servicesByZip = {
-  98144: { loopie: [], sponsored: '(206) 328-0434' },
+  98144: { loopie: [], sponsored: '850 Rainier Ave S, Seattle' },
   98108: { loopie: [], sponsored: '' },
   98122: { loopie: [], sponsored: '' },
   98070: { loopie: [], sponsored: '' }
