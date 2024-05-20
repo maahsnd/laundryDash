@@ -12,17 +12,16 @@ import LocationButton from '../locationBtn/locationBtn.jsx';
 
 import servicesByZip from '../../LoopieDummyData.js';
 
-
-console.log(servicesByZip);
-
 function LocalMap() {
   const [position, setPosition] = useState({
     lat: 47.6061389,
     lng: -122.3328481
   });
-  const [loopieServices,setLoopieServices] = useState([]);
-  const [sponsoredServicesIds, setSponsoredServicesIds] = useState([])
+  const [loopieServices, setLoopieServices] = useState([]);
+  const [sponsoredServicesIds, setSponsoredServicesIds] = useState([]);
   const [laundryServices, setLaundryServices] = useState([]);
+  const [loopieLoaded, setLoopieLoaded] = useState(false);
+  const [laundryLoaded, setLaundryLoaded] = useState(false);
   const [currentZoom, setCurrentZoom] = useState(12);
 
   const APIKey = import.meta.env.VITE_APIKEY;
@@ -32,13 +31,26 @@ function LocalMap() {
     'https://places.googleapis.com/v1/places:searchNearby';
 
   // Get user zip code to determine Loopie service options
-  useEffect(()=> {
-    const zip = reverseGeoCode(position.lat, position.lng, APIKey);
-    if (zip in servicesByZip ) {
-      if (servicesByZip[zip].loopie.length > 0 ){setLoopieServices(servicesByZip[zip])};
-      if (servicesByZip[zip].sponsored.length > 0) {setSponsoredServicesIds(servicesByZip[zip].sponsored)}
-    }
-  },[position])
+  useEffect(() => {
+    const getLoopieServices = async () => {
+      const zip = await reverseGeoCode(position.lat, position.lng, APIKey);
+      if (zip in servicesByZip) {
+        if (servicesByZip[zip].loopie.length > 0) {
+          const loopieService = {
+            ...servicesByZip[zip].loopie[0],
+            location: { latitude: position.lat, longitude: position.lng }
+          };
+          setLoopieServices(loopieService);
+        }
+        if (servicesByZip[zip].sponsored.length > 0) {
+          setSponsoredServicesIds(servicesByZip[zip].sponsored);
+        }
+      }
+      setLoopieLoaded(true);
+    };
+
+    getLoopieServices();
+  }, [position]);
 
   useEffect(() => {
     const fetchLaundryServices = async () => {
@@ -71,6 +83,7 @@ function LocalMap() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        setLaundryLoaded(true);
       } catch (err) {
         console.error('Error : ', err);
       }
@@ -87,8 +100,10 @@ function LocalMap() {
     <>
       <div className={styles.pageContainer}>
         <div className={styles.logoContainer}>
-          <a href="https://loopielaundry.com/" target='__none'><img className={styles.logo} src={logo} alt="Loopie Logo" /></a>
-          
+          <a href="https://loopielaundry.com/" target="__none">
+            <img className={styles.logo} src={logo} alt="Loopie Logo" />
+          </a>
+
           <h1 className={styles.logoHeader}>
             Streamline Your Laundry Experience with LaundryDash.ai: Your
             Ultimate Wash and Fold Navigator
@@ -111,23 +126,29 @@ function LocalMap() {
                 key={`${position.lat},${position.lng}`}
                 className={styles.map}
               >
+                {loopieServices.length !== 0 && (
+                  <MarkerWithInfoWindow
+                    placeData={loopieServices}
+                    key={'loopiemarker'}
+                  />
+                )}
                 {laundryServices.length !== 0 &&
                   laundryServices.map((service) => (
                     <MarkerWithInfoWindow
-       
                       placeData={service}
                       key={service.id}
                     />
                   ))}
               </Map>
             </div>
-
-            <ListView
-              laundryServices={laundryServices}
-              sponsoredServices={sponsoredServicesIds}
-              loopieServices={loopieServices}
-              position={position}
-            />
+            {loopieLoaded && laundryLoaded && (
+              <ListView
+                laundryServices={laundryServices}
+                sponsoredServices={sponsoredServicesIds}
+                loopieServices={[loopieServices]}
+                position={position}
+              />
+            )}
           </div>
         </APIProvider>
       </div>
