@@ -43,14 +43,16 @@ function MarkerWithInfowindow({ placeData }) {
               </a>
             </h4>
             <p>{placeData.shortFormattedAddress}</p>
-            <p>{placeData.nationalPhoneNumber}</p>
+            {placeData.nationalPhoneNumber && (
+              <p>{placeData.nationalPhoneNumber}</p>
+            )}
             <p>
               Rating: {placeData.rating}/5{' '}
               <span style={{ color: 'grey' }}>
                 ({placeData.userRatingCount} reviews)
               </span>
             </p>
-            <p>{getCurrentDayHours()}</p>
+            {placeData.currentOpeningHours && <p>{getCurrentDayHours()}</p>}
             {placeData.websiteUri && (
               <a href={placeData.websiteUri} target="_blank">
                 {placeData.websiteUri}
