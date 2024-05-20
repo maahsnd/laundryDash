@@ -54,6 +54,21 @@ function ListView({
     return distance;
   }
 
+  function extractSponsoredServices(laundryArray) {
+    const sponsoredServicesArr = [];
+    const laundryServicesArr = [];
+    if (sponsoredServices.length > 0) {
+      laundryArray.forEach((service) => {
+        if (sponsoredServices.includes(service.shortFormattedAddress)) {
+          sponsoredServicesArr.push(service);
+        } else {
+          laundryServicesArr.push(service);
+        }
+      });
+    }
+    return [sponsoredServicesArr, laundryServicesArr];
+  }
+
   useEffect(() => {
     const arrPlusDistanceProp = laundryServices.map((el) => {
       return {
@@ -66,9 +81,12 @@ function ListView({
         )
       };
     });
-    const filtered = filterOptions[filterOption](arrPlusDistanceProp);
+    const [sponsoredArr, standardArr] =
+      extractSponsoredServices(arrPlusDistanceProp);
+    const filtered = filterOptions[filterOption](standardArr);
+    // Loopie services added in via sort functions
     const sorted = sortOptions[sortOption](filtered);
-    const services = [...sponsoredServices, ...sorted];
+    const services = [...sponsoredArr, ...sorted];
     setSortedServices(services);
   }, [sortOption, filterOption, laundryServices, sponsoredServices]);
 
