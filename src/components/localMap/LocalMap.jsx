@@ -73,7 +73,8 @@ function LocalMap() {
     <>
       <div className={styles.pageContainer}>
         <div className={styles.logoContainer}>
-          <img className={styles.logo} src={logo} alt="Loopie Logo" />
+          <a href="https://loopielaundry.com/" target='__none'><img className={styles.logo} src={logo} alt="Loopie Logo" /></a>
+          
           <h1 className={styles.logoHeader}>
             Streamline Your Laundry Experience with LaundryDash.ai: Your
             Ultimate Wash and Fold Navigator
