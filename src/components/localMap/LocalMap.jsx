@@ -40,11 +40,14 @@ function LocalMap() {
             ...servicesByZip[zip].loopie[0],
             location: { latitude: position.lat, longitude: position.lng }
           };
-          setLoopieServices(loopieService);
+          setLoopieServices([loopieService]);
         }
         if (servicesByZip[zip].sponsored.length > 0) {
           setSponsoredServicesIds(servicesByZip[zip].sponsored);
         }
+      } else {
+        setLoopieServices([]);
+        setSponsoredServicesIds([]);
       }
       setLoopieLoaded(true);
     };
@@ -130,7 +133,7 @@ function LocalMap() {
               >
                 {loopieServices.length !== 0 && (
                   <MarkerWithInfoWindow
-                    placeData={loopieServices}
+                    placeData={loopieServices[0]}
                     key={'loopiemarker'}
                     useLoopiePin={true}
                   />
@@ -148,7 +151,7 @@ function LocalMap() {
               <ListView
                 laundryServices={laundryServices}
                 sponsoredServices={sponsoredServicesIds}
-                loopieServices={[loopieServices]}
+                loopieServices={loopieServices}
                 position={position}
               />
             )}
