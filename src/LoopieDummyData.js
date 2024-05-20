@@ -18,11 +18,11 @@ function createService(
 }
 
 const servicesByZip = {
-  98144: { loopie: [], sponsored: '850 Rainier Ave S, Seattle' },
+  98144: { loopie: [], sponsored: ['850 Rainier Ave S, Seattle'] },
   98108: { loopie: [], sponsored: '' },
   98122: { loopie: [], sponsored: '' },
   98070: { loopie: [], sponsored: '' },
-  98164: { loopie: [], sponsored: '850 Rainier Ave S, Seattle' }
+  98164: { loopie: [], sponsored: ['850 Rainier Ave S, Seattle'] }
 };
 
 for (const zip in servicesByZip) {
