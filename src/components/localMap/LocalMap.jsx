@@ -112,9 +112,9 @@ function LocalMap() {
                 className={styles.map}
               >
                 {laundryServices.length !== 0 &&
-                  laundryServices.map((service, index) => (
+                  laundryServices.map((service) => (
                     <MarkerWithInfoWindow
-                      index={index}
+       
                       placeData={service}
                       key={service.id}
                     />

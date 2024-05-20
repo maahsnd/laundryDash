@@ -6,7 +6,7 @@ import {
 } from '@vis.gl/react-google-maps';
 import styles from './marker-with-info-window.module.css';
 
-function MarkerWithInfowindow({ index, placeData }) {
+function MarkerWithInfowindow({ placeData }) {
   const [infowindowOpen, setInfowindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
   function getCurrentDayHours() {
