@@ -57,15 +57,15 @@ function ListView({
   function extractSponsoredServices(laundryArray) {
     const sponsoredServicesArr = [];
     const laundryServicesArr = [];
-    if (sponsoredServices.length > 0) {
-      laundryArray.forEach((service) => {
-        if (sponsoredServices.includes(service.shortFormattedAddress)) {
-          sponsoredServicesArr.push(service);
-        } else {
-          laundryServicesArr.push(service);
-        }
-      });
-    }
+
+    laundryArray.forEach((service) => {
+      if (sponsoredServices.includes(service.shortFormattedAddress)) {
+        sponsoredServicesArr.push(service);
+      } else {
+        laundryServicesArr.push(service);
+      }
+    });
+
     return [sponsoredServicesArr, laundryServicesArr];
   }
 
