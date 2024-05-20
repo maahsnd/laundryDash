@@ -6,10 +6,12 @@ import DiscountDisplay from '../discountCode/DiscountDisplay.jsx';
 import ListView from '../listView/ListView.jsx';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
 import getUserLocation from '../../getUserLocation';
+import reverseGeoCode from '../../reverseGeoCode.js';
 import Autocomplete from '../autocomplete/Autocomplete.jsx';
 import LocationButton from '../locationBtn/locationBtn.jsx';
 
 import servicesByZip from '../../LoopieDummyData.js';
+
 
 console.log(servicesByZip);
 
@@ -18,13 +20,21 @@ function LocalMap() {
     lat: 47.6061389,
     lng: -122.3328481
   });
+  const [userZip, setUserZip] = useState('98164')
   const [laundryServices, setLaundryServices] = useState([]);
   const [currentZoom, setCurrentZoom] = useState(12);
 
   const APIKey = import.meta.env.VITE_APIKEY;
   const MAPID = import.meta.env.VITE_MAPID;
+
   const googlePlacesURL =
     'https://places.googleapis.com/v1/places:searchNearby';
+
+  // Get user zip code to determine Loopie service options
+  useEffect(()=> {
+    const zip = reverseGeoCode(position.lat, position.lng, APIKey);
+    setUserZip(zip)
+  },[position])
 
   useEffect(() => {
     const fetchLaundryServices = async () => {
