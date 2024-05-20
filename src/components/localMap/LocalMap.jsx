@@ -9,6 +9,10 @@ import getUserLocation from '../../getUserLocation';
 import Autocomplete from '../autocomplete/Autocomplete.jsx';
 import LocationButton from '../locationBtn/locationBtn.jsx';
 
+import servicesByZip from '../../LoopieDummyData.js';
+
+console.log(servicesByZip);
+
 function LocalMap() {
   const [position, setPosition] = useState({
     lat: 47.6061389,
