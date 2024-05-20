@@ -5,6 +5,7 @@ import logo from '../../assets/LoopieLogo.png';
 import DiscountDisplay from '../discountCode/DiscountDisplay.jsx';
 import ListView from '../listView/ListView.jsx';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
+import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 import getUserLocation from '../../getUserLocation';
 import reverseGeoCode from '../../reverseGeoCode.js';
 import Autocomplete from '../autocomplete/Autocomplete.jsx';
@@ -121,33 +122,39 @@ function LocalMap() {
 
           <div className={styles.mapAndListWrap}>
             <div className={styles.mapContainer}>
-              <Map
-                defaultCenter={position}
-                zoom={currentZoom || 12}
-                onZoomChanged={(newZoom) => {
-                  setCurrentZoom(parseInt(newZoom) || 12);
-                }}
-                mapId={MAPID}
-                key={`${position.lat},${position.lng}`}
-                className={styles.map}
-              >
-                {loopieServices.length !== 0 && (
-                  <MarkerWithInfoWindow
-                    placeData={loopieServices[0]}
-                    key={'loopiemarker'}
-                    useLoopiePin={true}
-                  />
-                )}
-                {laundryServices.length !== 0 &&
-                  laundryServices.map((service) => (
+              {!loopieLoaded || !laundryLoaded ? (
+                <LoadingDisplay loadingFor={'map'} />
+              ) : (
+                <Map
+                  defaultCenter={position}
+                  zoom={currentZoom || 12}
+                  onZoomChanged={(newZoom) => {
+                    setCurrentZoom(parseInt(newZoom) || 12);
+                  }}
+                  mapId={MAPID}
+                  key={`${position.lat},${position.lng}`}
+                  className={styles.map}
+                >
+                  {loopieServices.length !== 0 && (
                     <MarkerWithInfoWindow
-                      placeData={service}
-                      key={service.id}
+                      placeData={loopieServices[0]}
+                      key={'loopiemarker'}
+                      useLoopiePin={true}
                     />
-                  ))}
-              </Map>
+                  )}
+                  {laundryServices.length !== 0 &&
+                    laundryServices.map((service) => (
+                      <MarkerWithInfoWindow
+                        placeData={service}
+                        key={service.id}
+                      />
+                    ))}
+                </Map>
+              )}
             </div>
-            {loopieLoaded && laundryLoaded && (
+            {!loopieLoaded || !laundryLoaded ? (
+              <LoadingDisplay loadingFor={'list'} />
+            ) : (
               <ListView
                 laundryServices={laundryServices}
                 sponsoredServices={sponsoredServicesIds}

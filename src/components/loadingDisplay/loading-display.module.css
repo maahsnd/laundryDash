@@ -1,0 +1,32 @@
+.container {
+  border: 2.5px solid var(--main-color);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 50%;
+  height: auto;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.list {
+  width: 100%;
+  max-width: 400px;
+  height: calc(70vh - 5px);
+}
+
+@media (max-width: 600px) {
+  .map {
+    min-height: 95%;
+  }
+  .list {
+    height: 45%;
+  }
+}
