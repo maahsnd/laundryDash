@@ -20,7 +20,8 @@ function LocalMap() {
     lat: 47.6061389,
     lng: -122.3328481
   });
-  const [userZip, setUserZip] = useState('98164')
+  const [loopieServices,setLoopieServices] = useState([]);
+  const [sponsoredServicesIds, setSponsoredServicesIds] = useState([])
   const [laundryServices, setLaundryServices] = useState([]);
   const [currentZoom, setCurrentZoom] = useState(12);
 
@@ -33,7 +34,10 @@ function LocalMap() {
   // Get user zip code to determine Loopie service options
   useEffect(()=> {
     const zip = reverseGeoCode(position.lat, position.lng, APIKey);
-    setUserZip(zip)
+    if (zip in servicesByZip ) {
+      if (servicesByZip[zip].loopie.length > 0 ){setLoopieServices(servicesByZip[zip])};
+      if (servicesByZip[zip].sponsored.length > 0) {setSponsoredServicesIds(servicesByZip[zip].sponsored)}
+    }
   },[position])
 
   useEffect(() => {
@@ -120,8 +124,8 @@ function LocalMap() {
 
             <ListView
               laundryServices={laundryServices}
-              sponsoredServices={[]}
-              loopieServices={[]}
+              sponsoredServices={sponsoredServicesIds}
+              loopieServices={loopieServices}
               position={position}
             />
           </div>
