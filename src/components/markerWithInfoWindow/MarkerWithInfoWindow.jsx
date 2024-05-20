@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import {
   AdvancedMarker,
   InfoWindow,
-  useAdvancedMarkerRef
+  useAdvancedMarkerRef,
+  Pin
 } from '@vis.gl/react-google-maps';
 import styles from './marker-with-info-window.module.css';
 
-function MarkerWithInfowindow({ placeData }) {
+function MarkerWithInfowindow({ placeData, useLoopiePin = false }) {
   const [infowindowOpen, setInfowindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
   function getCurrentDayHours() {
@@ -29,7 +30,18 @@ function MarkerWithInfowindow({ placeData }) {
           lng: placeData.location.longitude
         }}
         title={placeData.displayName.text}
-      />
+      >
+        {useLoopiePin ? (
+          <Pin
+            background={'var(--main-color)'}
+            borderColor={'white'}
+            glyphColor={'white'}
+          />
+        ) : (
+          <Pin />
+        )}
+      </AdvancedMarker>
+
       {infowindowOpen && (
         <InfoWindow
           anchor={marker}

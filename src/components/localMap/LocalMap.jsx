@@ -130,6 +130,7 @@ function LocalMap() {
                   <MarkerWithInfoWindow
                     placeData={loopieServices}
                     key={'loopiemarker'}
+                    useLoopiePin={true}
                   />
                 )}
                 {laundryServices.length !== 0 &&
