@@ -32,6 +32,16 @@ function ListView({
       return [...laundryArray].filter(
         (service) => service.currentOpeningHours.openNow
       );
+    },
+    fourPlus: (laundryArray) => {
+      return [...laundryArray].filter(
+        (service) => parseFloat(service.rating) >= 4
+      );
+    },
+    fourHalfPlus: (laundryArray) => {
+      return [...laundryArray].filter(
+        (service) => parseFloat(service.rating) >= 4.5
+      );
     }
   };
 
@@ -115,6 +125,8 @@ function ListView({
           >
             <option value="none">None</option>
             <option value="openNow">Open now</option>
+            <option value="fourPlus">4+ stars</option>
+            <option value="fourHalfPlus">4.5+ stars</option>
           </select>
         </div>
       </div>
