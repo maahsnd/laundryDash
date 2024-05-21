@@ -4,12 +4,14 @@ function DiscountDisplay({ discountCode, discountMessage }) {
   if (discountCode) {
     return (
       <div className={styles.discountContainer}>
-        <p>
-          {discountMessage
-            ? discountMessage
-            : 'Save on Loopie services with discount code: '}
-          <span className={styles.discountCode}>{discountCode}</span>
-        </p>
+        <a href="https://loopielaundry.com/" target="__none">
+          <p>
+            {discountMessage
+              ? discountMessage
+              : 'Save on Loopie services with discount code: '}
+            <span className={styles.discountCode}>{discountCode}</span>
+          </p>
+        </a>
       </div>
     );
   }
