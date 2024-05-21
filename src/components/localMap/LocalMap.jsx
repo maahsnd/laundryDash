@@ -33,6 +33,7 @@ function LocalMap() {
 
   // Get user zip code to determine Loopie service options
   useEffect(() => {
+    setLoopieLoaded(false);
     const getLoopieServices = async () => {
       const zip = await reverseGeoCode(position.lat, position.lng, APIKey);
       if (zip in servicesByZip) {
@@ -57,6 +58,7 @@ function LocalMap() {
   }, [position]);
 
   useEffect(() => {
+    setLaundryLoaded(false);
     const fetchLaundryServices = async () => {
       const reqBody = {
         includedTypes: ['laundry'],
@@ -84,7 +86,10 @@ function LocalMap() {
         });
         const data = await response.json();
         setLaundryServices(data.places);
-        if (!response.ok) {
+        if (!response.ok || !data.places) {
+          alert(
+            "Sorry, Google couldn't find that address. We know it's annoying, and we're working on it. Please try a different address, or our autolocate button."
+          );
           throw new Error('Network response was not ok');
         }
         setLaundryLoaded(true);
