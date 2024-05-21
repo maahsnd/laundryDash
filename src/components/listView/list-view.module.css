@@ -3,7 +3,7 @@
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
-  height: calc(70vh - 5px);
+  height: calc(100% - 5px);
 }
 
 .listDash {

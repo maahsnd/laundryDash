@@ -6,14 +6,16 @@
 }
 
 .mapContainer {
-  height: 70vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .mapAndListWrap {
-  height: 95%;
+  max-height: 70%;
+  min-height: 50%;
+  flex-grow: 1;
   gap: 10px;
   width: 100%;
   display: flex;
@@ -35,13 +37,14 @@
   height: 100px;
   width: auto;
   object-fit: contain;
-  margin: 10px 0;
+  margin: 0;
 }
 
 .logoHeader {
   font-size: medium;
   color: var(--main-color);
   text-align: center;
+  margin: 5px 0;
 }
 
 .map {
