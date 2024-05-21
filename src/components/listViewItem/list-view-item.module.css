@@ -8,6 +8,18 @@
   text-align: center;
 }
 
+.loopie > p:nth-child(2) {
+  color: var(--main-color);
+  box-shadow: 2px 2px 8px #0069e239;
+  padding: 2px 4px;
+  border-radius: 5px;
+}
+
+.sponsoredTag {
+  color: grey;
+  font-size: small;
+}
+
 .itemContainer > * {
   margin: 1.5px;
 }

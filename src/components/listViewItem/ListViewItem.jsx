@@ -2,7 +2,14 @@ import styles from './list-view-item.module.css';
 
 function ListViewItem({ itemData }) {
   return (
-    <div className={styles.itemContainer}>
+    <div
+      className={`${styles.itemContainer} ${
+        itemData.loopieService ? styles.loopie : ''
+      }`}
+    >
+      {itemData.sponsored && (
+        <span className={styles.sponsoredTag}>Sponsored</span>
+      )}
       <h4>
         <a href={itemData.googleMapsUri} target="_blank">
           {itemData.displayName.text}

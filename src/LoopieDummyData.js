@@ -13,7 +13,8 @@ function createService(
     googleMapsUri: googleMapsUri,
     shortFormattedAddress: shortFormattedAddress,
     userRatingCount: userRatingCount,
-    websiteUri: websiteUri
+    websiteUri: websiteUri,
+    loopieService: 1
   };
 }
 
