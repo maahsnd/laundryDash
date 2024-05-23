@@ -19,11 +19,16 @@ function createService(
 }
 
 const servicesByZip = {
-  98144: { loopie: [], sponsored: ['850 Rainier Ave S, Seattle'] },
-  98108: { loopie: [], sponsored: '' },
-  98122: { loopie: [], sponsored: '' },
-  98070: { loopie: [], sponsored: '' },
-  98164: { loopie: [], sponsored: ['850 Rainier Ave S, Seattle'] }
+  98144: [],
+  98108: [],
+  98122: [],
+  98070: [],
+  98164: []
+};
+
+const sponsoredServicesByZip = {
+  98144: ['850 Rainier Ave S, Seattle'],
+  98164: ['850 Rainier Ave S, Seattle']
 };
 
 for (const zip in servicesByZip) {
@@ -35,7 +40,9 @@ for (const zip in servicesByZip) {
     '25',
     'Loopie Wash and Fold'
   );
-  servicesByZip[zip].loopie.push(loopieService);
+  servicesByZip[zip].push(loopieService);
 }
+
+return { loopie: servicesByZip, sponsored: sponsoredServicesByZip };
 
 export default servicesByZip;
