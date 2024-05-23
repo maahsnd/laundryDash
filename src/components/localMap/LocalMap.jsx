@@ -1,103 +1,71 @@
-import styles from './local-map.module.css';
 import { useState, useEffect } from 'react';
+import styles from './local-map.module.css';
+
+// Google imports
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import Autocomplete from '../autocomplete/Autocomplete.jsx';
+
+// Display assets
 import logo from '../../assets/LoopieLogo.png';
+import LocationButton from '../locationBtn/locationBtn.jsx';
+
+//Components
 import DiscountDisplay from '../discountCode/DiscountDisplay.jsx';
 import ListView from '../listView/ListView.jsx';
 import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
 import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
-import getUserLocation from '../../getUserLocation';
-import reverseGeoCode from '../../reverseGeoCode.js';
-import Autocomplete from '../autocomplete/Autocomplete.jsx';
-import LocationButton from '../locationBtn/locationBtn.jsx';
 
-import servicesByZip from '../../LoopieDummyData.js';
+//Helpers
+import getUserLocation from '../../locationHelpers/getUserLocation.js';
+import reverseGeoCode from '../../locationHelpers/reverseGeoCode.js';
+import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
+import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
+import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
     lat: 47.6061389,
     lng: -122.3328481
   });
+  const [currentZoom, setCurrentZoom] = useState(12);
   const [loopieServices, setLoopieServices] = useState([]);
   const [sponsoredServicesIds, setSponsoredServicesIds] = useState([]);
   const [laundryServices, setLaundryServices] = useState([]);
   const [loopieLoaded, setLoopieLoaded] = useState(false);
   const [laundryLoaded, setLaundryLoaded] = useState(false);
-  const [currentZoom, setCurrentZoom] = useState(12);
 
   const APIKey = import.meta.env.VITE_APIKEY;
   const MAPID = import.meta.env.VITE_MAPID;
 
-  const googlePlacesURL =
-    'https://places.googleapis.com/v1/places:searchNearby';
-
-  // Get user zip code to determine Loopie service options
   useEffect(() => {
     setLoopieLoaded(false);
-    const getLoopieServices = async () => {
-      const zip = await reverseGeoCode(position.lat, position.lng, APIKey);
-      if (zip in servicesByZip) {
-        if (servicesByZip[zip].loopie.length > 0) {
-          const loopieService = {
-            ...servicesByZip[zip].loopie[0],
-            location: { latitude: position.lat, longitude: position.lng }
-          };
-          setLoopieServices([loopieService]);
-        }
-        if (servicesByZip[zip].sponsored.length > 0) {
-          setSponsoredServicesIds(servicesByZip[zip].sponsored);
-        }
-      } else {
-        setLoopieServices([]);
-        setSponsoredServicesIds([]);
-      }
-      setLoopieLoaded(true);
+
+    const fetchLoopieServices = async () => {
+      const zipCode = await reverseGeoCode(position, APIKey);
+      const loopieData = getLoopieServices(zipCode, position);
+      setLoopieServices(loopieData);
+      const sponsoredData = getSponsoredServices(zipCode);
+      setSponsoredServicesIds(sponsoredData);
     };
 
-    getLoopieServices();
+    fetchLoopieServices();
+    setLoopieLoaded(true);
   }, [position]);
 
   useEffect(() => {
     setLaundryLoaded(false);
-    const fetchLaundryServices = async () => {
-      const reqBody = {
-        includedTypes: ['laundry'],
-        maxResultCount: 10,
-        locationRestriction: {
-          circle: {
-            center: {
-              latitude: position.lat,
-              longitude: position.lng
-            },
-            radius: 5000
-          }
-        }
-      };
 
-      try {
-        const response = await fetch(googlePlacesURL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Goog-Api-Key': APIKey,
-            'X-Goog-FieldMask': '*'
-          },
-          body: JSON.stringify(reqBody)
-        });
-        const data = await response.json();
-        setLaundryServices(data.places);
-        if (!response.ok || !data.places) {
-          alert(
-            "Sorry, Google couldn't find that address. We know it's annoying, and we're working on it. Please try a different address, or our autolocate button."
-          );
-          throw new Error('Network response was not ok');
-        }
-        setLaundryLoaded(true);
-      } catch (err) {
-        console.error('Error : ', err);
-      }
+    const fetchLaundryServices = async () => {
+      const data = await getPlacesLaundry(position, 20, 5000);
+      setLaundryServices(data);
     };
+
     fetchLaundryServices();
+    setLaundryLoaded(true);
+  }, [position]);
+
+  useEffect(() => {
+    setCurrentZoom(12);
   }, [position]);
 
   const getLocationFromNavigator = async () => {
@@ -132,21 +100,14 @@ function LocalMap() {
               ) : (
                 <Map
                   defaultCenter={position}
-                  zoom={currentZoom || 12}
+                  zoom={currentZoom}
                   onZoomChanged={(newZoom) => {
-                    setCurrentZoom(parseInt(newZoom) || 12);
+                    setCurrentZoom(newZoom);
                   }}
                   mapId={MAPID}
                   key={`${position.lat},${position.lng}`}
                   className={styles.map}
                 >
-                  {loopieServices.length !== 0 && (
-                    <MarkerWithInfoWindow
-                      placeData={loopieServices[0]}
-                      key={'loopiemarker'}
-                      useLoopiePin={true}
-                    />
-                  )}
                   {laundryServices.length !== 0 &&
                     laundryServices.map((service) => (
                       <MarkerWithInfoWindow
@@ -154,6 +115,13 @@ function LocalMap() {
                         key={service.id}
                       />
                     ))}
+                  {loopieServices.length !== 0 && (
+                    <MarkerWithInfoWindow
+                      placeData={loopieServices[0]}
+                      key={'loopiemarker'}
+                      useLoopiePin={true}
+                    />
+                  )}
                 </Map>
               )}
             </div>
