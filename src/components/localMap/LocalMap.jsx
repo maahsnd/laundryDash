@@ -37,15 +37,14 @@ function LocalMap() {
   const APIKey = import.meta.env.VITE_APIKEY;
   const MAPID = import.meta.env.VITE_MAPID;
 
-  // Get user zip code to determine Loopie service options
   useEffect(() => {
     setLoopieLoaded(false);
 
     const fetchLoopieServices = async () => {
-      const zip = await reverseGeoCode(position.lat, position.lng, APIKey);
-      const loopieData = getLoopieServices(zip, position);
+      const zipCode = await reverseGeoCode(position.lat, position.lng, APIKey);
+      const loopieData = getLoopieServices(zipCode, position);
       setLoopieServices(loopieData);
-      const sponsoredData = getSponsoredServices(zip);
+      const sponsoredData = getSponsoredServices(zipCode);
       setSponsoredServicesIds(sponsoredData);
     };
 
