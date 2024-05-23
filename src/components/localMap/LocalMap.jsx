@@ -16,8 +16,8 @@ import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.j
 import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 
 //Helpers
-import getUserLocation from '../../userLocationHelpers/getUserLocation.js';
-import reverseGeoCode from '../../userLocationHelpers/reverseGeoCode.js';
+import getUserLocation from '../../locationHelpers/getUserLocation.js';
+import reverseGeoCode from '../../locationHelpers/reverseGeoCode.js';
 import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
 import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
 import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
