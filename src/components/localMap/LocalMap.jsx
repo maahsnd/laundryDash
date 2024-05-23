@@ -104,13 +104,6 @@ function LocalMap() {
                   key={`${position.lat},${position.lng}`}
                   className={styles.map}
                 >
-                  {loopieServices.length !== 0 && (
-                    <MarkerWithInfoWindow
-                      placeData={loopieServices[0]}
-                      key={'loopiemarker'}
-                      useLoopiePin={true}
-                    />
-                  )}
                   {laundryServices.length !== 0 &&
                     laundryServices.map((service) => (
                       <MarkerWithInfoWindow
@@ -118,6 +111,13 @@ function LocalMap() {
                         key={service.id}
                       />
                     ))}
+                  {loopieServices.length !== 0 && (
+                    <MarkerWithInfoWindow
+                      placeData={loopieServices[0]}
+                      key={'loopiemarker'}
+                      useLoopiePin={true}
+                    />
+                  )}
                 </Map>
               )}
             </div>
