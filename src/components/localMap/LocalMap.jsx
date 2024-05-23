@@ -41,7 +41,7 @@ function LocalMap() {
     setLoopieLoaded(false);
 
     const fetchLoopieServices = async () => {
-      const zipCode = await reverseGeoCode(position.lat, position.lng, APIKey);
+      const zipCode = await reverseGeoCode(position, APIKey);
       const loopieData = getLoopieServices(zipCode, position);
       setLoopieServices(loopieData);
       const sponsoredData = getSponsoredServices(zipCode);

@@ -7,7 +7,7 @@ function getLoopieServices(zip, position) {
 
   if (zip in servicesByZip && servicesByZip[zip].length > 0) {
     const loopieService = {
-      ...servicesByZip[zip].loopie[0],
+      ...servicesByZip[zip][0],
       location: { latitude: position.lat, longitude: position.lng }
     };
     services.push(loopieService);
