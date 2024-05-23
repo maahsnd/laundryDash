@@ -8,7 +8,6 @@ function createService(
 ) {
   return {
     displayName: { text: serviceDisplayName },
-
     rating: rating,
     googleMapsUri: googleMapsUri,
     shortFormattedAddress: shortFormattedAddress,
@@ -43,6 +42,6 @@ for (const zip in servicesByZip) {
   servicesByZip[zip].push(loopieService);
 }
 
-return { loopie: servicesByZip, sponsored: sponsoredServicesByZip };
+const data = { loopie: servicesByZip, sponsored: sponsoredServicesByZip };
 
-export default servicesByZip;
+export default data;
