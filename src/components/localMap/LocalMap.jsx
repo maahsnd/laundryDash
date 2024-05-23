@@ -64,6 +64,10 @@ function LocalMap() {
     setLaundryLoaded(true);
   }, [position]);
 
+  useEffect(() => {
+    setCurrentZoom(12);
+  }, [position]);
+
   const getLocationFromNavigator = async () => {
     const location = await getUserLocation(position);
     setPosition(location);
@@ -96,9 +100,9 @@ function LocalMap() {
               ) : (
                 <Map
                   defaultCenter={position}
-                  zoom={currentZoom || 12}
+                  zoom={currentZoom}
                   onZoomChanged={(newZoom) => {
-                    setCurrentZoom(parseInt(newZoom) || 12);
+                    setCurrentZoom(newZoom);
                   }}
                   mapId={MAPID}
                   key={`${position.lat},${position.lng}`}
