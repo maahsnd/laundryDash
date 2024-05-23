@@ -1,4 +1,4 @@
-import data from './LoopieDummyData.js';
+import data from '../LoopieDummyData.js';
 
 function getLoopieServices(zip, position) {
   const servicesByZip = data.loopie;

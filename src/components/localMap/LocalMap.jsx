@@ -16,11 +16,11 @@ import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.j
 import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 
 //Helpers
-import getUserLocation from '../../getUserLocation';
-import reverseGeoCode from '../../reverseGeoCode.js';
-import getPlacesLaundry from '../../getPlacesLaundry.js';
-import getLoopieServices from '../../getLoopieServices.js';
-import getSponsoredServices from '../../getSponsoredServices.js';
+import getUserLocation from '../../userLocationHelpers/getUserLocation.js';
+import reverseGeoCode from '../../userLocationHelpers/reverseGeoCode.js';
+import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
+import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
+import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
