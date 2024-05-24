@@ -1,18 +1,18 @@
-export const filterOptions = {
-  none: (laundryArray) => laundryArray,
-  openNow: (laundryArray) => {
-    return [...laundryArray].filter(
-      (service) => service.currentOpeningHours.openNow
-    );
+function applyFilters(laundryArray, filters) {
+  return laundryArray.filter((service) => {
+    return filters.every((filter) => filterOptions[filter](service));
+  });
+}
+
+const filterOptions = {
+  none: (_) => true,
+  openNow: (service) => {
+    return service.currentOpeningHours
+      ? service.currentOpeningHours.openNow
+      : false;
   },
-  fourPlus: (laundryArray) => {
-    return [...laundryArray].filter(
-      (service) => parseFloat(service.rating) >= 4
-    );
-  },
-  fourHalfPlus: (laundryArray) => {
-    return [...laundryArray].filter(
-      (service) => parseFloat(service.rating) >= 4.5
-    );
-  }
+  fourPlus: (service) => parseFloat(service.rating) >= 4,
+  fourHalfPlus: (service) => parseFloat(service.rating) >= 4.5
 };
+
+export default applyFilters;
