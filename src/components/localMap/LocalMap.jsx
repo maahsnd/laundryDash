@@ -23,7 +23,7 @@ import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
 import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
 import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
 import extractSponsoredServices from '../../laundryDataHelpers/extractSponsoredFromPlaces.js';
-import { filterOptions } from '../../laundryDataHelpers/filterLaundry.js';
+import applyFilters from '../../laundryDataHelpers/filterLaundry.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
@@ -31,7 +31,7 @@ function LocalMap() {
     lng: -122.3328481
   });
   const [currentZoom, setCurrentZoom] = useState(12);
-  const [filterOption, setFilterOption] = useState('none');
+  const [filterOptions, setFilterOptions] = useState([]);
   const [loopieServices, setLoopieServices] = useState([]);
   const [sponsoredServices, setSponsoredServices] = useState([]);
   // Laundry services stores fetched results, filtered stores processed. Render from processed
@@ -65,23 +65,25 @@ function LocalMap() {
   }, [position]);
 
   useEffect(() => {
-    // Reset for new map/ location
+    // Reset zoom
     setCurrentZoom(12);
-    updateFilters('none');
   }, [position]);
 
   useEffect(() => {
-    const filtered = filterOptions[filterOption](laundryServices);
-    setFilteredServices(filtered);
-  }, [filterOption]);
+    if (laundryServices.length > 0) {
+      const filtered = applyFilters(laundryServices, filterOptions);
+      setFilteredServices(filtered);
+    }
+  }, [filterOptions]);
 
   async function getLocationFromNavigator() {
     const location = await getUserLocation(position);
     setPosition(location);
   }
 
-  function updateFilters(filter) {
-    setFilterOption(filter);
+  function updateFilters(newFilters) {
+    const filters = newFilters.map((option) => option.value);
+    setFilterOptions(filters);
   }
 
   return (
@@ -144,8 +146,8 @@ function LocalMap() {
                 sponsoredServices={sponsoredServices}
                 loopieServices={loopieServices}
                 position={position}
-                filterOption={filterOption}
-                setFilterOption={updateFilters}
+                filterOptions={filterOptions}
+                updateFilterOption={updateFilters}
               />
             )}
           </div>

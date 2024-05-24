@@ -1,13 +1,13 @@
 import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
+import Select from 'react-select';
 
 function ListView({
   laundryServices,
   loopieServices,
   sponsoredServices,
-  filterOption,
-  setFilterOption
+  updateFilterOption
 }) {
   const [sortedServices, setSortedServices] = useState([]);
   const [sortOption, setSortOption] = useState('byRating');
@@ -25,6 +25,13 @@ function ListView({
       return [...loopieServices, ...laundryArray];
     }
   };
+
+  const filterSelectOptions = [
+    { value: 'none', label: 'None' },
+    { value: 'openNow', label: 'Open now' },
+    { value: 'fourPlus', label: '4+ stars' },
+    { value: 'fourHalfPlus', label: '4.5+ stars' }
+  ];
 
   useEffect(() => {
     // Loopie services added in via sort functions
@@ -50,16 +57,15 @@ function ListView({
 
         <div>
           <label htmlFor="filterSelect">Filter by</label>
-          <select
+
+          <Select
+            defaultValue={[]}
+            isMulti
             name="filterSelect"
-            onChange={(e) => setFilterOption(e.target.value)}
-            value={filterOption}
-          >
-            <option value="none">None</option>
-            <option value="openNow">Open now</option>
-            <option value="fourPlus">4+ stars</option>
-            <option value="fourHalfPlus">4.5+ stars</option>
-          </select>
+            options={filterSelectOptions}
+            className={styles.filterSelect}
+            onChange={updateFilterOption}
+          />
         </div>
       </div>
 

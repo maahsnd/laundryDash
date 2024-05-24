@@ -5,7 +5,6 @@ function applyFilters(laundryArray, filters) {
 }
 
 const filterOptions = {
-  none: (_) => true,
   openNow: (service) => {
     return service.currentOpeningHours
       ? service.currentOpeningHours.openNow
