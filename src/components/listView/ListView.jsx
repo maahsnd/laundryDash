@@ -3,6 +3,7 @@ import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
 import calculateDistance from '../../locationHelpers/calcDistance';
 import { filterOptions } from '../../laundryHelpers/filterLaundry';
+import extractSponsoredServices from '../../laundryHelpers/extractSponsoredFromPlaces';
 
 function ListView({
   laundryServices,
@@ -28,22 +29,6 @@ function ListView({
     }
   };
 
-  function extractSponsoredServices(laundryArray) {
-    const sponsoredServicesArr = [];
-    const laundryServicesArr = [];
-
-    laundryArray.forEach((service) => {
-      if (sponsoredServices.includes(service.shortFormattedAddress)) {
-        const markedService = { ...service, sponsored: 1 };
-        sponsoredServicesArr.push(markedService);
-      } else {
-        laundryServicesArr.push(service);
-      }
-    });
-
-    return [sponsoredServicesArr, laundryServicesArr];
-  }
-
   useEffect(() => {
     const arrPlusDistanceProp = laundryServices.map((el) => {
       return {
@@ -56,8 +41,10 @@ function ListView({
         )
       };
     });
-    const [sponsoredArr, standardArr] =
-      extractSponsoredServices(arrPlusDistanceProp);
+    const [sponsoredArr, standardArr] = extractSponsoredServices(
+      arrPlusDistanceProp,
+      sponsoredServices
+    );
     const filtered = filterOptions[filterOption](standardArr);
     // Loopie services added in via sort functions
     const sorted = sortOptions[sortOption](filtered);
