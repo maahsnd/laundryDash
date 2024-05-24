@@ -2,6 +2,7 @@ import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
 import calculateDistance from '../../locationHelpers/calcDistance';
+import { filterOptions } from '../../laundryHelpers/filterLaundry';
 
 function ListView({
   laundryServices,
@@ -24,25 +25,6 @@ function ListView({
       });
       /* Place loopie services at the front. Delivery always closer than pick up! */
       return [...loopieServices, ...laundryArray];
-    }
-  };
-
-  const filterOptions = {
-    none: (laundryArray) => laundryArray,
-    openNow: (laundryArray) => {
-      return [...laundryArray].filter(
-        (service) => service.currentOpeningHours.openNow
-      );
-    },
-    fourPlus: (laundryArray) => {
-      return [...laundryArray].filter(
-        (service) => parseFloat(service.rating) >= 4
-      );
-    },
-    fourHalfPlus: (laundryArray) => {
-      return [...laundryArray].filter(
-        (service) => parseFloat(service.rating) >= 4.5
-      );
     }
   };
 

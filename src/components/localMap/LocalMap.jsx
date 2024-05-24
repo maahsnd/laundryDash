@@ -18,9 +18,9 @@ import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 //Helpers
 import getUserLocation from '../../locationHelpers/getUserLocation.js';
 import reverseGeoCode from '../../locationHelpers/reverseGeoCode.js';
-import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
-import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
-import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
+import getPlacesLaundry from '../../laundryHelpers/getPlacesLaundry.js';
+import getLoopieServices from '../../laundryHelpers/getLoopieServices.js';
+import getSponsoredServices from '../../laundryHelpers/getSponsoredServices.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
