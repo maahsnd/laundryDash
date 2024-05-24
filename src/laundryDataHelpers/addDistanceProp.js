@@ -1,3 +1,5 @@
+import calculateDistance from '../locationHelpers/calcDistance';
+
 export default function addDistance(position, laundryServices) {
   const arrPlusDistanceProp = laundryServices.map((el) => {
     return {
