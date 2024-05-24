@@ -18,9 +18,12 @@ import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 //Helpers
 import getUserLocation from '../../locationHelpers/getUserLocation.js';
 import reverseGeoCode from '../../locationHelpers/reverseGeoCode.js';
+import addDistance from '../../laundryDataHelpers/addDistanceProp.js';
 import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
 import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
 import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
+import extractSponsoredServices from '../../laundryDataHelpers/extractSponsoredFromPlaces.js';
+import { filterOptions } from '../../laundryDataHelpers/filterLaundry.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
@@ -30,49 +33,56 @@ function LocalMap() {
   const [currentZoom, setCurrentZoom] = useState(12);
   const [filterOption, setFilterOption] = useState('none');
   const [loopieServices, setLoopieServices] = useState([]);
-  const [sponsoredServicesIds, setSponsoredServicesIds] = useState([]);
+  const [sponsoredServices, setSponsoredServices] = useState([]);
+  // Laundry services stores fetched results, filtered stores processed. Render from processed
   const [laundryServices, setLaundryServices] = useState([]);
-  const [loopieLoaded, setLoopieLoaded] = useState(false);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [laundryLoaded, setLaundryLoaded] = useState(false);
 
   const APIKey = import.meta.env.VITE_APIKEY;
   const MAPID = import.meta.env.VITE_MAPID;
 
   useEffect(() => {
-    setLoopieLoaded(false);
-
-    const fetchLoopieServices = async () => {
-      const zipCode = await reverseGeoCode(position, APIKey);
-      const loopieData = getLoopieServices(zipCode, position);
-      setLoopieServices(loopieData);
-      const sponsoredData = getSponsoredServices(zipCode);
-      setSponsoredServicesIds(sponsoredData);
-    };
-
-    fetchLoopieServices();
-    setLoopieLoaded(true);
-  }, [position]);
-
-  useEffect(() => {
     setLaundryLoaded(false);
 
     const fetchLaundryServices = async () => {
-      const data = await getPlacesLaundry(position, 20, 5000);
-      setLaundryServices(data);
+      const zipCode = await reverseGeoCode(position, APIKey);
+      const loopieData = getLoopieServices(zipCode, position);
+      setLoopieServices(loopieData);
+      const placesData = await getPlacesLaundry(position, 20, 5000);
+      const placesDataPlusDistance = addDistance(position, placesData);
+      const sponsoredIds = getSponsoredServices(zipCode);
+      const [sponsoredArr, laundryArr] = extractSponsoredServices(
+        placesDataPlusDistance,
+        sponsoredIds
+      );
+      setLaundryServices(laundryArr);
+      setFilteredServices(laundryArr);
+      setSponsoredServices(sponsoredArr);
     };
-
     fetchLaundryServices();
     setLaundryLoaded(true);
   }, [position]);
 
   useEffect(() => {
+    // Reset for new map/ location
     setCurrentZoom(12);
+    updateFilters('none');
   }, [position]);
 
-  const getLocationFromNavigator = async () => {
+  useEffect(() => {
+    const filtered = filterOptions[filterOption](laundryServices);
+    setFilteredServices(filtered);
+  }, [filterOption]);
+
+  async function getLocationFromNavigator() {
     const location = await getUserLocation(position);
     setPosition(location);
-  };
+  }
+
+  function updateFilters(filter) {
+    setFilterOption(filter);
+  }
 
   return (
     <>
@@ -96,7 +106,7 @@ function LocalMap() {
 
           <div className={styles.mapAndListWrap}>
             <div className={styles.mapContainer}>
-              {!loopieLoaded || !laundryLoaded ? (
+              {!laundryLoaded ? (
                 <LoadingDisplay loadingFor={'map'} />
               ) : (
                 <Map
@@ -109,8 +119,8 @@ function LocalMap() {
                   key={`${position.lat},${position.lng}`}
                   className={styles.map}
                 >
-                  {laundryServices.length !== 0 &&
-                    laundryServices.map((service) => (
+                  {filteredServices.length !== 0 &&
+                    filteredServices.map((service) => (
                       <MarkerWithInfoWindow
                         placeData={service}
                         key={service.id}
@@ -126,14 +136,16 @@ function LocalMap() {
                 </Map>
               )}
             </div>
-            {!loopieLoaded || !laundryLoaded ? (
+            {!laundryLoaded ? (
               <LoadingDisplay loadingFor={'list'} />
             ) : (
               <ListView
-                laundryServices={laundryServices}
-                sponsoredServices={sponsoredServicesIds}
+                laundryServices={filteredServices}
+                sponsoredServices={sponsoredServices}
                 loopieServices={loopieServices}
                 position={position}
+                filterOption={filterOption}
+                setFilterOption={updateFilters}
               />
             )}
           </div>

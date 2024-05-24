@@ -1,19 +1,16 @@
 import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
-import calculateDistance from '../../locationHelpers/calcDistance';
-import { filterOptions } from '../../laundryDataHelpers/filterLaundry';
-import extractSponsoredServices from '../../laundryDataHelpers/extractSponsoredFromPlaces';
 
 function ListView({
   laundryServices,
   loopieServices,
   sponsoredServices,
-  position
+  filterOption,
+  setFilterOption
 }) {
   const [sortedServices, setSortedServices] = useState([]);
   const [sortOption, setSortOption] = useState('byRating');
-  const [filterOption, setFilterOption] = useState('none');
 
   const sortOptions = {
     byRating: (laundryArray) => {
@@ -30,27 +27,11 @@ function ListView({
   };
 
   useEffect(() => {
-    const arrPlusDistanceProp = laundryServices.map((el) => {
-      return {
-        ...el,
-        distanceFromUser: calculateDistance(
-          position.lat,
-          position.lng,
-          el.location.latitude,
-          el.location.longitude
-        )
-      };
-    });
-    const [sponsoredArr, standardArr] = extractSponsoredServices(
-      arrPlusDistanceProp,
-      sponsoredServices
-    );
-    const filtered = filterOptions[filterOption](standardArr);
     // Loopie services added in via sort functions
-    const sorted = sortOptions[sortOption](filtered);
-    const services = [...sponsoredArr, ...sorted];
+    const sorted = sortOptions[sortOption](laundryServices);
+    const services = [...sponsoredServices, ...sorted];
     setSortedServices(services);
-  }, [sortOption, filterOption, laundryServices, sponsoredServices]);
+  }, [sortOption, laundryServices, sponsoredServices]);
 
   return (
     <div className={styles.listContainer}>
