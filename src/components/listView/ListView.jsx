@@ -2,8 +2,8 @@ import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
 import calculateDistance from '../../locationHelpers/calcDistance';
-import { filterOptions } from '../../laundryHelpers/filterLaundry';
-import extractSponsoredServices from '../../laundryHelpers/extractSponsoredFromPlaces';
+import { filterOptions } from '../../laundryDataHelpers/filterLaundry';
+import extractSponsoredServices from '../../laundryDataHelpers/extractSponsoredFromPlaces';
 
 function ListView({
   laundryServices,

@@ -18,9 +18,9 @@ import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 //Helpers
 import getUserLocation from '../../locationHelpers/getUserLocation.js';
 import reverseGeoCode from '../../locationHelpers/reverseGeoCode.js';
-import getPlacesLaundry from '../../laundryHelpers/getPlacesLaundry.js';
-import getLoopieServices from '../../laundryHelpers/getLoopieServices.js';
-import getSponsoredServices from '../../laundryHelpers/getSponsoredServices.js';
+import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
+import getLoopieServices from '../../laundryFetchHelpers/getLoopieServices.js';
+import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
@@ -28,6 +28,7 @@ function LocalMap() {
     lng: -122.3328481
   });
   const [currentZoom, setCurrentZoom] = useState(12);
+  const [filterOption, setFilterOption] = useState('none');
   const [loopieServices, setLoopieServices] = useState([]);
   const [sponsoredServicesIds, setSponsoredServicesIds] = useState([]);
   const [laundryServices, setLaundryServices] = useState([]);
