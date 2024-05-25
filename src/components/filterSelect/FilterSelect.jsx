@@ -6,6 +6,7 @@ export default function FilterSelect({ changeHandler }) {
     { value: 'fourPlus', label: '4+ stars' },
     { value: 'fourHalfPlus', label: '4.5+ stars' }
   ];
+  // Can remove some of this
   const customStyles = {
     control: (base) => ({
       ...base,

@@ -61,12 +61,8 @@ function LocalMap() {
       setSponsoredServices(sponsoredArr);
     };
     fetchLaundryServices();
-    setLaundryLoaded(true);
-  }, [position]);
-
-  useEffect(() => {
-    // Reset zoom
     setCurrentZoom(12);
+    setLaundryLoaded(true);
   }, [position]);
 
   useEffect(() => {
