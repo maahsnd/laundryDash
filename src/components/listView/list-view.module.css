@@ -59,7 +59,7 @@
     margin: 2px 0;
   }
   .listContent {
-    height: calc(100% - 90px);
+    height: calc(100% - 98px);
   }
 
   .listDash > option {
