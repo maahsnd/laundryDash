@@ -1,17 +1,16 @@
 import styles from './list-view.module.css';
 import ListViewItem from '../listViewItem/ListViewItem';
 import { useState, useEffect } from 'react';
-import calculateDistance from '../../locationHelpers/calcDistance';
+import FilterSelect from '../filterSelect/FilterSelect';
 
 function ListView({
   laundryServices,
   loopieServices,
   sponsoredServices,
-  position
+  updateFilterOption
 }) {
   const [sortedServices, setSortedServices] = useState([]);
   const [sortOption, setSortOption] = useState('byRating');
-  const [filterOption, setFilterOption] = useState('none');
 
   const sortOptions = {
     byRating: (laundryArray) => {
@@ -27,66 +26,17 @@ function ListView({
     }
   };
 
-  const filterOptions = {
-    none: (laundryArray) => laundryArray,
-    openNow: (laundryArray) => {
-      return [...laundryArray].filter(
-        (service) => service.currentOpeningHours.openNow
-      );
-    },
-    fourPlus: (laundryArray) => {
-      return [...laundryArray].filter(
-        (service) => parseFloat(service.rating) >= 4
-      );
-    },
-    fourHalfPlus: (laundryArray) => {
-      return [...laundryArray].filter(
-        (service) => parseFloat(service.rating) >= 4.5
-      );
-    }
-  };
-
-  function extractSponsoredServices(laundryArray) {
-    const sponsoredServicesArr = [];
-    const laundryServicesArr = [];
-
-    laundryArray.forEach((service) => {
-      if (sponsoredServices.includes(service.shortFormattedAddress)) {
-        const markedService = { ...service, sponsored: 1 };
-        sponsoredServicesArr.push(markedService);
-      } else {
-        laundryServicesArr.push(service);
-      }
-    });
-
-    return [sponsoredServicesArr, laundryServicesArr];
-  }
-
   useEffect(() => {
-    const arrPlusDistanceProp = laundryServices.map((el) => {
-      return {
-        ...el,
-        distanceFromUser: calculateDistance(
-          position.lat,
-          position.lng,
-          el.location.latitude,
-          el.location.longitude
-        )
-      };
-    });
-    const [sponsoredArr, standardArr] =
-      extractSponsoredServices(arrPlusDistanceProp);
-    const filtered = filterOptions[filterOption](standardArr);
     // Loopie services added in via sort functions
-    const sorted = sortOptions[sortOption](filtered);
-    const services = [...sponsoredArr, ...sorted];
+    const sorted = sortOptions[sortOption](laundryServices);
+    const services = [...sponsoredServices, ...sorted];
     setSortedServices(services);
-  }, [sortOption, filterOption, laundryServices, sponsoredServices]);
+  }, [sortOption, laundryServices, sponsoredServices]);
 
   return (
     <div className={styles.listContainer}>
       <div className={styles.listDash}>
-        <div>
+        <div className={styles.sortSelectContainer}>
           <label htmlFor="sortSelect">Sort by</label>
           <select
             name="sortSelect"
@@ -98,18 +48,9 @@ function ListView({
           </select>
         </div>
 
-        <div>
+        <div className={styles.filterSelectContainer}>
           <label htmlFor="filterSelect">Filter by</label>
-          <select
-            name="filterSelect"
-            onChange={(e) => setFilterOption(e.target.value)}
-            value={filterOption}
-          >
-            <option value="none">None</option>
-            <option value="openNow">Open now</option>
-            <option value="fourPlus">4+ stars</option>
-            <option value="fourHalfPlus">4.5+ stars</option>
-          </select>
+          <FilterSelect changeHandler={updateFilterOption} />
         </div>
       </div>
 

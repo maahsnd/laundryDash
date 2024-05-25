@@ -3,17 +3,32 @@
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
-  height: calc(70vh - 5px);
+  height: calc(100% - 5px);
 }
 
 .listDash {
-  height: 35px;
+  height: min-content;
   width: calc(100% - 10px);
   border-bottom: 2.5px solid var(--main-color);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   padding: 5px;
+  gap: 5px;
+}
+
+.listDash > .sortSelectContainer,
+.listDash > .filterSelectContainer {
+  display: flex;
+  min-width: 200px;
+  width: fit-content;
+  align-items: center;
+}
+
+.sortSelectContainer > select {
+  height: 34px;
+  border-color: black;
 }
 
 .listDash > div > select {
@@ -28,26 +43,23 @@
 
 .listContent {
   width: 100%;
-  height: calc(100% - 47px);
+  height: calc(100% - 107px);
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
 @media (max-width: 600px) {
   .listContainer {
-    height: 40%;
+    height: 50%;
   }
 
-  .listDash {
-    height: 50px;
-  }
   .listDash > div {
     text-align: center;
     font-size: smaller;
     margin: 2px 0;
   }
   .listContent {
-    height: calc(100% - 60px);
+    height: calc(100% - 98px);
   }
 
   .listDash > option {

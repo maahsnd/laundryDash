@@ -13,7 +13,7 @@
 }
 
 .mapAndListWrap {
-  max-height: 70%;
+  max-height: 90%;
   min-height: 50%;
   flex-grow: 1;
   gap: 10px;
