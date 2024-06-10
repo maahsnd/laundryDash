@@ -6,14 +6,31 @@ https://developers.google.com/maps/documentation/places/web-service/nearby-searc
 
 https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 
-Next steps:
+Next steps (short term):
 
-Figure out how to identify sponsored service (e.g by short formatted address)
-    Display at top of list (remove from the ordinary services array, add to sponsored)
+    * Make loopie marker appear on top always
 
-Add ability to manually add data for zipcodes in the future
-I.e have a database (for now just an object) with a list of zipcodes
-If the current location zipcode is present in the database, add those
-data points to the laundry services array
+    * Improve info window appearance (that empty space at the top)
 
-Add links to loopie sites
+    * Update area on zoom for laundry dash
+
+    * Add fallback font
+
+    * Add website to listview card
+
+    * Highlight result on hover
+
+    * Add google analytics
+
+    Incorporate MUI (?)
+    Highlight sustainable businesses in some way (?)
+
+Up next:
+    Implement short term fixes
+    Then, create a new repo, clone this project, and pivot
+
+    Use AI chatbot to summarize results
+
+Ideas:
+    Pivot to turn this into a lead generation tool 
+    for salespeople/ industry.
