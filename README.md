@@ -8,10 +8,6 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 
 Next steps (short term):
 
-    * Make loopie marker appear on top always
-
-    * Improve info window appearance (that empty space at the top)
-
     * Update area on zoom for laundry dash
 
     * Add fallback font

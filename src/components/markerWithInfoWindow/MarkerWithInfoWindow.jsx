@@ -30,6 +30,7 @@ function MarkerWithInfowindow({ placeData, useLoopiePin = false }) {
           lng: placeData.location.longitude
         }}
         title={placeData.displayName.text}
+        zIndex={(useLoopiePin ? 10 : 1)}
       >
         {useLoopiePin ? (
           <Pin
