@@ -8,13 +8,7 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 
 Next steps (short term):
 
-    * Update area on zoom for laundry dash
-
-    * Add fallback font
-
-    * Add website to listview card
-
-    * Highlight result on hover
+    * Show search circle on map
 
     * Add google analytics
 
@@ -22,11 +16,11 @@ Next steps (short term):
     Highlight sustainable businesses in some way (?)
 
 Up next:
-    Implement short term fixes
-    Then, create a new repo, clone this project, and pivot
+Implement short term fixes
+Then, create a new repo, clone this project, and pivot
 
     Use AI chatbot to summarize results
 
 Ideas:
-    Pivot to turn this into a lead generation tool 
-    for salespeople/ industry.
+Pivot to turn this into a lead generation tool
+for salespeople/ industry.
