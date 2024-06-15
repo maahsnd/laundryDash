@@ -20,7 +20,8 @@
   font-size: small;
 }
 
-.itemContainer > * {
+.itemContainer > *,
+p {
   margin: 1.5px;
 }
 
