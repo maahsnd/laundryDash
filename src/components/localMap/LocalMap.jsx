@@ -31,6 +31,7 @@ function LocalMap() {
     lng: -122.3328481,
   });
   const [currentZoom, setCurrentZoom] = useState(12);
+  const [searchRadius, setSearchRadius] = useState(5000);
   const [filterOptions, setFilterOptions] = useState([]);
   const [loopieServices, setLoopieServices] = useState([]);
   const [sponsoredServices, setSponsoredServices] = useState([]);
@@ -50,7 +51,7 @@ function LocalMap() {
       const zipCode = await reverseGeoCode(position, APIKey);
       const loopieData = getLoopieServices(zipCode, position);
       setLoopieServices(loopieData);
-      const placesData = await getPlacesLaundry(position, 20, 5000);
+      const placesData = await getPlacesLaundry(position, 20, searchRadius);
       const placesDataPlusDistance = addDistance(position, placesData);
       const sponsoredIds = getSponsoredServices(zipCode);
       const [sponsoredArr, laundryArr] = extractSponsoredServices(
@@ -62,9 +63,8 @@ function LocalMap() {
       setSponsoredServices(sponsoredArr);
     };
     fetchLaundryServices();
-    setCurrentZoom(12);
     setLaundryLoaded(true);
-  }, [position]);
+  }, [position, searchRadius]);
 
   useEffect(() => {
     if (laundryServices.length > 0) {
@@ -81,6 +81,19 @@ function LocalMap() {
   function updateFilters(newFilters) {
     const filters = newFilters.map((option) => option.value);
     setFilterOptions(filters);
+  }
+
+  function updateZoom(newZoom) {
+    // if negative, zoomed out; else zoomed in
+    const zoomDiff =
+      (Number.isInteger(newZoom) ? newZoom : newZoom.detail.zoom) -
+      (Number.isInteger(currentZoom) ? currentZoom : currentZoom.detail.zoom);
+    setCurrentZoom(newZoom);
+    if (zoomDiff > 0) {
+      setSearchRadius((prev) => Math.min(prev * 0.6, 50000));
+    } else if (zoomDiff < 0) {
+      setSearchRadius((prev) => Math.min(prev * 2.5, 50000));
+    }
   }
 
   return (
@@ -112,7 +125,7 @@ function LocalMap() {
                   defaultCenter={position}
                   zoom={currentZoom}
                   onZoomChanged={(newZoom) => {
-                    setCurrentZoom(newZoom);
+                    updateZoom(newZoom);
                   }}
                   mapId={MAPID}
                   key={`${position.lat},${position.lng}`}
