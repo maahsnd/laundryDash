@@ -1,16 +1,18 @@
-import styles from './list-view.module.css';
-import ListViewItem from '../listViewItem/ListViewItem';
-import { useState, useEffect } from 'react';
-import FilterSelect from '../filterSelect/FilterSelect';
+import styles from "./list-view.module.css";
+import ListViewItem from "../listViewItem/ListViewItem";
+import { useState, useEffect } from "react";
+import FilterSelect from "../filterSelect/FilterSelect";
 
 function ListView({
   laundryServices,
   loopieServices,
   sponsoredServices,
-  updateFilterOption
+  updateFilterOption,
+  selectedServiceUri,
+  selectService,
 }) {
   const [sortedServices, setSortedServices] = useState([]);
-  const [sortOption, setSortOption] = useState('byRating');
+  const [sortOption, setSortOption] = useState("byRating");
 
   const sortOptions = {
     byRating: (laundryArray) => {
@@ -23,7 +25,7 @@ function ListView({
       });
       /* Place loopie services at the front. Delivery always closer than pick up! */
       return [...loopieServices, ...laundryArray];
-    }
+    },
   };
 
   useEffect(() => {
@@ -56,7 +58,12 @@ function ListView({
 
       <div className={styles.listContent}>
         {sortedServices.map((service, index) => (
-          <ListViewItem key={index} itemData={service} />
+          <ListViewItem
+            key={index}
+            itemData={service}
+            selectedServiceUri={selectedServiceUri}
+            selectService={selectService}
+          />
         ))}
       </div>
     </div>

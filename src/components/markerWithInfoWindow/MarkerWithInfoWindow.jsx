@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   AdvancedMarker,
   InfoWindow,
   useAdvancedMarkerRef,
-  Pin
-} from '@vis.gl/react-google-maps';
-import styles from './marker-with-info-window.module.css';
+  Pin,
+} from "@vis.gl/react-google-maps";
+import styles from "./marker-with-info-window.module.css";
 
-function MarkerWithInfowindow({ placeData, useLoopiePin = false }) {
+function MarkerWithInfowindow({
+  placeData,
+  selectedServiceUri,
+  useLoopiePin = false,
+}) {
   const [infowindowOpen, setInfowindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
   function getCurrentDayHours() {
@@ -27,17 +31,19 @@ function MarkerWithInfowindow({ placeData, useLoopiePin = false }) {
         onClick={() => setInfowindowOpen(true)}
         position={{
           lat: placeData.location.latitude,
-          lng: placeData.location.longitude
+          lng: placeData.location.longitude,
         }}
         title={placeData.displayName.text}
-        zIndex={(useLoopiePin ? 10 : 1)}
+        zIndex={useLoopiePin ? 10 : 1}
       >
         {useLoopiePin ? (
           <Pin
-            background={'var(--main-color)'}
-            borderColor={'white'}
-            glyphColor={'white'}
+            background={"var(--main-color)"}
+            borderColor={"white"}
+            glyphColor={"white"}
           />
+        ) : selectedServiceUri === placeData.googleMapsUri ? (
+          <Pin borderColor={"red"} background={"white"} />
         ) : (
           <Pin />
         )}
@@ -60,8 +66,8 @@ function MarkerWithInfowindow({ placeData, useLoopiePin = false }) {
               <p>{placeData.nationalPhoneNumber}</p>
             )}
             <p>
-              Rating: {placeData.rating}/5{' '}
-              <span style={{ color: 'grey' }}>
+              Rating: {placeData.rating}/5{" "}
+              <span style={{ color: "grey" }}>
                 ({placeData.userRatingCount} reviews)
               </span>
             </p>

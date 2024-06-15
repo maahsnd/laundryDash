@@ -1,11 +1,14 @@
 import styles from "./list-view-item.module.css";
 
-function ListViewItem({ itemData }) {
+function ListViewItem({ itemData, selectedServiceUri, selectService }) {
   return (
     <div
       className={`${styles.itemContainer} ${
         itemData.loopieService ? styles.loopie : ""
+      } ${
+        itemData.googleMapsUri === selectedServiceUri ? styles.selected : ""
       }`}
+      onMouseEnter={() => selectService(itemData.googleMapsUri)}
     >
       {itemData.sponsored && (
         <span className={styles.sponsoredTag}>Sponsored</span>
