@@ -15,6 +15,7 @@ import DiscountDisplay from "../discountCode/DiscountDisplay.jsx";
 import ListView from "../listView/ListView.jsx";
 import MarkerWithInfoWindow from "../markerWithInfoWindow/MarkerWithInfoWindow.jsx";
 import LoadingDisplay from "../loadingDisplay/LoadingDisplay.jsx";
+import Chatbot from "../chatbot/ChatBot.jsx";
 
 //Helpers
 import getUserLocation from "../../locationHelpers/getUserLocation.js";
@@ -101,6 +102,7 @@ function LocalMap() {
     <>
       <div className={styles.pageContainer}>
         <div className={styles.logoContainer}>
+          {laundryLoaded && <Chatbot places={laundryServices} />}
           <a href="https://loopielaundry.com/" target="__none">
             <img className={styles.logo} src={logo} alt="Loopie Logo" />
           </a>
