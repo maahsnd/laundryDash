@@ -139,6 +139,9 @@ function LocalMap() {
                       fillColor: "rgba(234, 68, 53, 0.2)",
                       strokeColor: "rgba(234, 67, 53, 0.5)",
                     }}
+                    editable
+                    draggable
+                    onRadiusChanged={setSearchRadius}
                   />
                   {filteredServices.length !== 0 &&
                     filteredServices.map((service) => (
