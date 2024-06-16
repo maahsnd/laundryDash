@@ -4,6 +4,7 @@ import styles from "./local-map.module.css";
 // Google imports
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import Autocomplete from "../autocomplete/Autocomplete.jsx";
+import { Circle } from "../circle/Circle.jsx";
 
 // Display assets
 import logo from "../../assets/LoopieLogo.png";
@@ -131,6 +132,14 @@ function LocalMap() {
                   key={`${position.lat},${position.lng}`}
                   className={styles.map}
                 >
+                  <Circle
+                    center={position}
+                    radius={searchRadius}
+                    options={{
+                      fillColor: "rgba(234, 68, 53, 0.2)",
+                      strokeColor: "rgba(234, 67, 53, 0.5)",
+                    }}
+                  />
                   {filteredServices.length !== 0 &&
                     filteredServices.map((service) => (
                       <MarkerWithInfoWindow
