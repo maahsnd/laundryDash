@@ -51,8 +51,8 @@ function LocalMap() {
 
     const fetchLaundryServices = async () => {
       const zipCode = await reverseGeoCode(position, APIKey);
-      const loopieData = getLoopieServices(zipCode, position);
-      setLoopieServices(loopieData);
+      /*       const loopieData = getLoopieServices(zipCode, position);
+      setLoopieServices(loopieData); */
       const placesData = await getPlacesLaundry(position, 20, searchRadius);
       const placesDataPlusDistance = addDistance(position, placesData);
       const sponsoredIds = getSponsoredServices(zipCode);
@@ -111,7 +111,7 @@ function LocalMap() {
             Streamline Your Laundry Experience with LaundryDash.ai: Your
             Ultimate Wash and Fold Navigator
           </h1>
-          <DiscountDisplay discountCode={"NODISCOUNT"} />
+          {/*           <DiscountDisplay discountCode={"NODISCOUNT"} /> */}
         </div>
         <APIProvider apiKey={APIKey}>
           <div className={styles.locationSelectors}>
