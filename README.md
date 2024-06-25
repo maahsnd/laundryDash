@@ -8,7 +8,10 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 
 Next steps (short term):
 
-    * Show search circle on map
+    * Implement AI chatbot to summarize results
+        Improve presentation
+            Format response
+        Make it a two way conversation
 
     * Add google analytics
 
