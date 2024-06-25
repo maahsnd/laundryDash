@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 const Chatbot = ({ places }) => {
   const [summary, setSummary] = useState("");
   const APIKEY = import.meta.env.VITE_OPENAIKEY;
-  console.log(APIKEY);
 
   useEffect(() => {
     summarizePlaces(places).then(setSummary).catch(console.error);
   }, [places]);
+
+  console.log(places);
 
   const summarizePlaces = async (places) => {
     if (!places || places.length === 0) return "No places found.";
@@ -16,14 +17,23 @@ const Chatbot = ({ places }) => {
     const placesDescription = places
       .map(
         (place) =>
-          `Place: ${place.name}, Rating: ${place.rating}, Distance: ${
-            place.distance
-          } meters, Status: ${place.isOpen ? "Open" : "Closed"}`
+          `Place: ${place.displayName.text}, Rating: ${
+            place.rating
+          }, Distance: ${Number.parseFloat(place.distanceFromUser).toFixed(
+            1
+          )} miles away, Open now: ${
+            place.currentOpeningHours.openNow
+          }, Weekly hours: ${place.currentOpeningHours.weekdayDescriptions}`
       )
       .join(". ");
 
-    const prompt = `Summarize these places: ${placesDescription}. Highlight the best overall option based on rating and proximity, the closest place, and the best rated place.`;
-
+    const prompt = `Summarize these places by selecting three: 1. the best overall option based on rating and proximity,
+    2. the closest option, and 3. the best rated option.  The best overall option must be open now. Answer in this format:
+    '
+    1. The best overall option (based on rating, proximity, and hours) is ... which is ... miles away, has a rating of..., and is open...  hours .
+    2. The closest option is ... which is ... miles away, has a rating of..., and is open...  hours .
+    3. The best rated option is ...which is ... miles away, has a rating of..., and is open...  hours  '
+     ${placesDescription}.`;
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -32,18 +42,27 @@ const Chatbot = ({ places }) => {
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo-0125",
-        prompt: prompt,
-        max_tokens: 200,
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a personal assistant, helping the user find the best laundry service near them.",
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
       }),
     });
 
     const data = await response.json();
-    return data.choices[0].text.trim();
+    console.log("data:  ", data.choices[0].message.content);
+    return data.choices[0].message.content;
   };
 
   return (
     <div>
-      <h1>Summary of Places</h1>
       <p>{summary}</p>
     </div>
   );
