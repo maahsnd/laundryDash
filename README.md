@@ -8,7 +8,11 @@ https://visgl.github.io/react-google-maps/docs/api-reference/components/marker
 
 Next steps (short term):
 
-    * Show search circle on map
+    * Implement AI chatbot to summarize results
+    (just feed it places results, have it output best overall (and explain why--combo proximity, ratings, open now),
+    plus best rated, closest, etc)
+    fix bigs w calling openAI api
+    have chatbot provide response on load, without submit
 
     * Add google analytics
 
