@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./local-map.module.css";
 
 // Google imports
@@ -10,17 +10,16 @@ import { Circle } from "../circle/Circle.jsx";
 import logo from "../../assets/LoopieLogo.png";
 import LocationButton from "../locationBtn/locationBtn.jsx";
 
-//Components
+// Components
 import ListView from "../listView/ListView.jsx";
 import MarkerWithInfoWindow from "../markerWithInfoWindow/MarkerWithInfoWindow.jsx";
 import LoadingDisplay from "../loadingDisplay/LoadingDisplay.jsx";
 
-//Helpers
+// Helpers
 import getUserLocation from "../../locationHelpers/getUserLocation.js";
 import reverseGeoCode from "../../locationHelpers/reverseGeoCode.js";
 import addDistance from "../../laundryDataHelpers/addDistanceProp.js";
 import getPlacesLaundry from "../../laundryFetchHelpers/getPlacesLaundry.js";
-import getLoopieServices from "../../laundryFetchHelpers/getLoopieServices.js";
 import getSponsoredServices from "../../laundryFetchHelpers/getSponsoredServices.js";
 import extractSponsoredServices from "../../laundryDataHelpers/extractSponsoredFromPlaces.js";
 import applyFilters from "../../laundryDataHelpers/filterLaundry.js";
@@ -36,7 +35,6 @@ function LocalMap() {
   const [loopieServices, setLoopieServices] = useState([]);
   const [sponsoredServices, setSponsoredServices] = useState([]);
   const [selectedServiceUri, setSelectedServiceUri] = useState(false);
-  // Laundry services stores fetched results, filtered stores processed. Render from processed
   const [laundryServices, setLaundryServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [laundryLoaded, setLaundryLoaded] = useState(false);
@@ -49,8 +47,6 @@ function LocalMap() {
 
     const fetchLaundryServices = async () => {
       const zipCode = await reverseGeoCode(position, APIKey);
-      /*       const loopieData = getLoopieServices(zipCode, position);
-      setLoopieServices(loopieData); */
       const placesData = await getPlacesLaundry(position, 20, searchRadius);
       const placesDataPlusDistance = addDistance(position, placesData);
       const sponsoredIds = getSponsoredServices(zipCode);
@@ -61,9 +57,9 @@ function LocalMap() {
       setLaundryServices(laundryArr);
       setFilteredServices(laundryArr);
       setSponsoredServices(sponsoredArr);
+      setLaundryLoaded(true);
     };
     fetchLaundryServices();
-    setLaundryLoaded(true);
   }, [position, searchRadius]);
 
   useEffect(() => {
@@ -71,7 +67,7 @@ function LocalMap() {
       const filtered = applyFilters(laundryServices, filterOptions);
       setFilteredServices(filtered);
     }
-  }, [filterOptions]);
+  }, [filterOptions, laundryServices]);
 
   async function getLocationFromNavigator() {
     const location = await getUserLocation(position);
@@ -84,16 +80,9 @@ function LocalMap() {
   }
 
   function updateZoom(newZoom) {
-    // if negative, zoomed out; else zoomed in
-    const zoomDiff =
-      (Number.isInteger(newZoom) ? newZoom : newZoom.detail.zoom) -
-      (Number.isInteger(currentZoom) ? currentZoom : currentZoom.detail.zoom);
     setCurrentZoom(newZoom);
-    if (zoomDiff > 0) {
-      setSearchRadius((prev) => Math.min(prev * 0.6, 50000));
-    } else if (zoomDiff < 0) {
-      setSearchRadius((prev) => Math.min(prev * 2.5, 50000));
-    }
+    const zoomAdjustmentFactor = newZoom > currentZoom ? 0.6 : 2.5;
+    setSearchRadius((prev) => Math.min(prev * zoomAdjustmentFactor, 50000));
   }
 
   return (
@@ -103,13 +92,15 @@ function LocalMap() {
           <a href="https://loopielaundry.com/" target="__none">
             <img className={styles.logo} src={logo} alt="Loopie Logo" />
           </a>
-
           <h1 className={styles.logoHeader}>
             Streamline Your Laundry Experience with LaundryDash.ai: Your
             Ultimate Wash and Fold Navigator
           </h1>
         </div>
         <APIProvider apiKey={APIKey}>
+          {laundryLoaded && filteredServices.length > 0 && (
+            <Chatbot places={filteredServices} />
+          )}
           <div className={styles.locationSelectors}>
             <Autocomplete onPlaceSelect={setPosition} />
             <LocationButton onClickHandler={getLocationFromNavigator} />
@@ -123,9 +114,7 @@ function LocalMap() {
                 <Map
                   defaultCenter={position}
                   zoom={currentZoom}
-                  onZoomChanged={(newZoom) => {
-                    updateZoom(newZoom);
-                  }}
+                  onZoomChanged={updateZoom}
                   mapId={MAPID}
                   key={`${position.lat},${position.lng}`}
                   className={styles.map}

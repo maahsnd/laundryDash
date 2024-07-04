@@ -1,0 +1,142 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: medium;
+}
+
+.internalWrap {
+  box-shadow: 0 0 3px var(--main-color);
+  padding: 8px 4px;
+  margin: 5px 0;
+  border-radius: 15px;
+}
+
+button {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 7px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 10px;
+}
+
+.toggleButton {
+  border-radius: var(--borderWidth);
+  margin: 0;
+  color: var(--main-color);
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+}
+
+.toggleButton:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.sendButton,
+.inputField {
+  height: 30px;
+}
+
+.sendButton {
+  padding: 3px 15px;
+}
+
+.chatBox {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  height: min-content;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+ul {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+
+.summaryItem {
+  color: #333;
+}
+
+.userMsg {
+  text-align: right;
+  color: var(--main-color);
+  margin: 5px;
+}
+
+.aiMsg {
+  text-align: left;
+  margin: 5px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid var(--main-color);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+#gradientBorderBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min-content;
+  height: min-content;
+  color: white;
+  margin: 10px 0;
+}
+.gradientBorder {
+  --borderWidth: 3px;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradientBorder:after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
