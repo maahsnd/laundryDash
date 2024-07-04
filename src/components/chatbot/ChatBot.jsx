@@ -122,9 +122,15 @@ const Chatbot = ({ places }) => {
 
   return (
     <div className={styles.container}>
-      <button onClick={handleToggleVisibility} className={styles.toggleButton}>
-        AI Summary
-      </button>
+      <div className={styles.gradientBorder} id={styles.gradientBorderBox}>
+        <button
+          onClick={handleToggleVisibility}
+          className={styles.toggleButton}
+        >
+          Summarize Results with AI
+        </button>
+      </div>
+
       {isVisible && (
         <div className={styles.internalWrap}>
           {summary.length > 0 && (

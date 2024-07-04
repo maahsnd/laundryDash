@@ -9,7 +9,7 @@
   box-shadow: 0 0 3px var(--main-color);
   padding: 8px 4px;
   margin: 5px 0;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 button {
@@ -26,8 +26,17 @@ button {
   border-radius: 10px;
 }
 
+.toggleButton {
+  border-radius: var(--borderWidth);
+  margin: 0;
+  color: var(--main-color);
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+}
+
 .toggleButton:hover {
-  box-shadow: 0 0 5px var(--main-color);
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .sendButton,
@@ -80,4 +89,54 @@ form {
   border: 1px solid var(--main-color);
   box-sizing: border-box;
   border-radius: 10px;
+}
+
+#gradientBorderBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min-content;
+  height: min-content;
+  color: white;
+  margin: 10px 0;
+}
+.gradientBorder {
+  --borderWidth: 3px;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradientBorder:after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
