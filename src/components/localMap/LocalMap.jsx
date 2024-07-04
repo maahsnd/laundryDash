@@ -11,7 +11,6 @@ import logo from "../../assets/LoopieLogo.png";
 import LocationButton from "../locationBtn/locationBtn.jsx";
 
 // Components
-import DiscountDisplay from "../discountCode/DiscountDisplay.jsx";
 import ListView from "../listView/ListView.jsx";
 import MarkerWithInfoWindow from "../markerWithInfoWindow/MarkerWithInfoWindow.jsx";
 import LoadingDisplay from "../loadingDisplay/LoadingDisplay.jsx";
@@ -22,7 +21,6 @@ import getUserLocation from "../../locationHelpers/getUserLocation.js";
 import reverseGeoCode from "../../locationHelpers/reverseGeoCode.js";
 import addDistance from "../../laundryDataHelpers/addDistanceProp.js";
 import getPlacesLaundry from "../../laundryFetchHelpers/getPlacesLaundry.js";
-import getLoopieServices from "../../laundryFetchHelpers/getLoopieServices.js";
 import getSponsoredServices from "../../laundryFetchHelpers/getSponsoredServices.js";
 import extractSponsoredServices from "../../laundryDataHelpers/extractSponsoredFromPlaces.js";
 import applyFilters from "../../laundryDataHelpers/filterLaundry.js";
