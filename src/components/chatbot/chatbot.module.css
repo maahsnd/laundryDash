@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: medium;
+}
+
+.internalWrap {
+  box-shadow: 0 0 3px var(--main-color);
+  padding: 8px 4px;
+  margin: 5px 0;
+  border-radius: 10px;
+}
+
+button {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 7px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 10px;
+}
+
+.toggleButton:hover {
+  box-shadow: 0 0 5px var(--main-color);
+}
+
+.sendButton,
+.inputField {
+  height: 30px;
+}
+
+.sendButton {
+  padding: 3px 15px;
+}
+
+.chatBox {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  height: min-content;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+ul {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+
+.summaryItem {
+  color: #333;
+}
+
+.userMsg {
+  text-align: right;
+  color: var(--main-color);
+  margin: 5px;
+}
+
+.aiMsg {
+  text-align: left;
+  margin: 5px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid var(--main-color);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
