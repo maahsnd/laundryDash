@@ -15,26 +15,42 @@ const Chatbot = ({ places }) => {
   const summarizePlaces = async (places) => {
     if (!places || places.length === 0) return ["No places found."];
 
-    const placesDescription = places
+    const proximityList = [...places].sort(
+      (a, b) => a.distanceFromUser - b.distanceFromUser
+    );
+
+    const ratingList = [...places].sort((a, b) => b.rating - a.rating);
+
+    const rankedPlaces = places
       .map((place) => {
-        const distance = Number.parseFloat(place.distanceFromUser).toFixed(1);
-        return `Place: ${place.displayName.text}, Rating: ${place.rating}, Distance: ${distance} miles away, Open now: ${place.currentOpeningHours.openNow}, Weekly hours: ${place.currentOpeningHours.weekdayDescriptions}`;
+        const indexA = proximityList.indexOf(place);
+        const indexB = ratingList.indexOf(place);
+        const averageIndex = (indexA + indexB) / 2;
+        return { place, averageIndex };
       })
-      .join(". ");
+      .filter((item) => item.place.currentOpeningHours.openNow)
+      .sort((a, b) => a.averageIndex - b.averageIndex);
 
-    const overallBestSubPrompt =
-      "sorting based on proximity, sorting based on rating, combining the two sorts by averaging those ratings, then returning the highest average";
+    const overallList = rankedPlaces.map((item) => item.place);
 
-    const placesJSON = JSON.stringify(places);
+    const prepareSummary = (place) => {
+      const distance = Number.parseFloat(place.distanceFromUser).toFixed(1);
+      return `Place: ${place.displayName.text}, Rating: ${place.rating}, Distance: ${distance} miles away, Open now: ${place.currentOpeningHours.openNow}, 
+    Weekly hours: ${place.currentOpeningHours.weekdayDescriptions};`;
+    };
 
-    const prompt = `Select: 1. the best overall option by ${overallBestSubPrompt}
-    2. the closest option, and 3. the highest rated option. The best overall option must be open now. Answer in this format:
-    'The best overall option is ... which is ... miles away, has a rating of..., and is open...  hours .
-    || The closest option is ... which is ... miles away, has a rating of..., and is open...  hours .
-    || The best rated option is ...which is ... miles away, has a rating of..., and is open...  hours.'
-    Use this for your intial selections: ${placesDescription}. `;
+    const summariesProximity = proximityList.map(prepareSummary);
+    const summariesRating = ratingList.map(prepareSummary);
+    const summariesOverall = overallList.map(prepareSummary);
 
-    console.log(prompt);
+    if (!places || places.length === 0) return ["No places found."];
+
+    const prompt = `
+    Answer in the following format, and separate each service with ||:
+    'The best overall option is ... which is ... miles away, has a rating of..., and (is or is not) open now.
+    || The closest option is ... which is ... miles away, has a rating of..., and (is or is not) open now.
+    || The best rated option is ... which is ... miles away, has a rating of..., and (is or is not) open now'
+    Use these for your intial selections: closest places: ${summariesProximity}. Best rated places ${summariesRating}. Best overall: ${summariesOverall}. `;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
