@@ -14,6 +14,7 @@ import LocationButton from "../locationBtn/locationBtn.jsx";
 import ListView from "../listView/ListView.jsx";
 import MarkerWithInfoWindow from "../markerWithInfoWindow/MarkerWithInfoWindow.jsx";
 import LoadingDisplay from "../loadingDisplay/LoadingDisplay.jsx";
+import Chatbot from "../chatbot/ChatBot.jsx";
 
 // Helpers
 import getUserLocation from "../../locationHelpers/getUserLocation.js";
