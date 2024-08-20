@@ -1,34 +1,33 @@
-import React, { useState, useEffect } from "react";
-import styles from "./local-map.module.css";
+import React, { useState, useEffect } from 'react';
+import styles from './local-map.module.css';
 
 // Google imports
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
-import Autocomplete from "../autocomplete/Autocomplete.jsx";
-import { Circle } from "../circle/Circle.jsx";
+import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import Autocomplete from '../autocomplete/Autocomplete.jsx';
+import { Circle } from '../circle/Circle.jsx';
 
 // Display assets
-import logo from "../../assets/LoopieLogo.png";
-import LocationButton from "../locationBtn/locationBtn.jsx";
+import logo from '../../assets/LoopieLogo.png';
+import LocationButton from '../locationBtn/locationBtn.jsx';
 
 // Components
-import ListView from "../listView/ListView.jsx";
-import MarkerWithInfoWindow from "../markerWithInfoWindow/MarkerWithInfoWindow.jsx";
-import LoadingDisplay from "../loadingDisplay/LoadingDisplay.jsx";
-import Chatbot from "../chatbot/ChatBot.jsx";
+import ListView from '../listView/ListView.jsx';
+import MarkerWithInfoWindow from '../markerWithInfoWindow/MarkerWithInfoWindow.jsx';
+import LoadingDisplay from '../loadingDisplay/LoadingDisplay.jsx';
 
 // Helpers
-import getUserLocation from "../../locationHelpers/getUserLocation.js";
-import reverseGeoCode from "../../locationHelpers/reverseGeoCode.js";
-import addDistance from "../../laundryDataHelpers/addDistanceProp.js";
-import getPlacesLaundry from "../../laundryFetchHelpers/getPlacesLaundry.js";
-import getSponsoredServices from "../../laundryFetchHelpers/getSponsoredServices.js";
-import extractSponsoredServices from "../../laundryDataHelpers/extractSponsoredFromPlaces.js";
-import applyFilters from "../../laundryDataHelpers/filterLaundry.js";
+import getUserLocation from '../../locationHelpers/getUserLocation.js';
+import reverseGeoCode from '../../locationHelpers/reverseGeoCode.js';
+import addDistance from '../../laundryDataHelpers/addDistanceProp.js';
+import getPlacesLaundry from '../../laundryFetchHelpers/getPlacesLaundry.js';
+import getSponsoredServices from '../../laundryFetchHelpers/getSponsoredServices.js';
+import extractSponsoredServices from '../../laundryDataHelpers/extractSponsoredFromPlaces.js';
+import applyFilters from '../../laundryDataHelpers/filterLaundry.js';
 
 function LocalMap() {
   const [position, setPosition] = useState({
     lat: 47.6061389,
-    lng: -122.3328481,
+    lng: -122.3328481
   });
   const [currentZoom, setCurrentZoom] = useState(12);
   const [searchRadius, setSearchRadius] = useState(5000);
@@ -81,9 +80,8 @@ function LocalMap() {
   }
 
   function updateZoom(newZoom) {
-    setCurrentZoom(newZoom);
-    const zoomAdjustmentFactor = newZoom > currentZoom ? 0.6 : 2.5;
-    setSearchRadius((prev) => Math.min(prev * zoomAdjustmentFactor, 50000));
+    const zoom = newZoom.detail.zoom;
+    setCurrentZoom(zoom);
   }
 
   return (
@@ -99,9 +97,6 @@ function LocalMap() {
           </h1>
         </div>
         <APIProvider apiKey={APIKey}>
-          {laundryLoaded && filteredServices.length > 0 && (
-            <Chatbot places={filteredServices} />
-          )}
           <div className={styles.locationSelectors}>
             <Autocomplete onPlaceSelect={setPosition} />
             <LocationButton onClickHandler={getLocationFromNavigator} />
@@ -110,7 +105,7 @@ function LocalMap() {
           <div className={styles.mapAndListWrap}>
             <div className={styles.mapContainer}>
               {!laundryLoaded ? (
-                <LoadingDisplay loadingFor={"map"} />
+                <LoadingDisplay loadingFor={'map'} />
               ) : (
                 <Map
                   defaultCenter={position}
@@ -124,8 +119,8 @@ function LocalMap() {
                     center={position}
                     radius={searchRadius}
                     options={{
-                      fillColor: "rgba(234, 68, 53, 0.2)",
-                      strokeColor: "rgba(234, 67, 53, 0.5)",
+                      fillColor: 'rgba(234, 68, 53, 0.2)',
+                      strokeColor: 'rgba(234, 67, 53, 0.5)'
                     }}
                     editable
                     draggable
@@ -144,7 +139,7 @@ function LocalMap() {
                   {loopieServices.length !== 0 && (
                     <MarkerWithInfoWindow
                       placeData={loopieServices[0]}
-                      key={"loopiemarker"}
+                      key={'loopiemarker'}
                       useLoopiePin={true}
                       selectedServiceUri={selectedServiceUri}
                       selectService={(uri) => setSelectedServiceUri(uri)}
@@ -163,7 +158,7 @@ function LocalMap() {
               )}
             </div>
             {!laundryLoaded ? (
-              <LoadingDisplay loadingFor={"list"} />
+              <LoadingDisplay loadingFor={'list'} />
             ) : (
               <ListView
                 laundryServices={filteredServices}
